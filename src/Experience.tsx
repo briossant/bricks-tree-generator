@@ -10,7 +10,6 @@ export default function () {
 
     const fcts: BranchFunctions = {
         curve: parabolique,
-        splitting: midSplit,
         heritage: basicHeritage
     }
 
@@ -19,7 +18,7 @@ export default function () {
 
         <OrbitControls/>
 
-        <Branch length={50} startingDirection={new Vector3(0,1,0)} curvingDirection={new Vector3(0.1,0,0.5)} startingPoint={new Vector3(0,0,0)} functions={fcts} />
+        <Branch length={20} startingDirection={new Vector3(0,1,0)} curvingDirection={new Vector3(0.1,0,0.5)} startingPoint={new Vector3(0,0,0)} functions={fcts} />
 
         <Placeholder scale={0.5} color={"red"}/>
 

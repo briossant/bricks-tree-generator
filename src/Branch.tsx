@@ -3,12 +3,10 @@ import {useEffect, useState} from "react";
 import {Vector3} from "three";
 import {LineRenderer} from "./LineRenderer";
 import {CurveFunction} from "./BranchFunctions/CurveFunctions";
-import {SplittingFunctions} from "./BranchFunctions/SplittingFunctions";
 import {HeritageFunctions} from "./BranchFunctions/HeritageFunctions";
 
 export interface BranchFunctions {
     curve: CurveFunction;
-    splitting : SplittingFunctions;
     heritage: HeritageFunctions;
 }
 
@@ -21,6 +19,8 @@ export interface BranchSettings {
     functions: BranchFunctions;
 }
 
+// todo : add branch depth for heritage func + floating I and step param
+
 export const Branch: React.FC<BranchSettings> = (params) => {
     const {length, startingDirection,curvingDirection, startingPoint, functions} = params;
     const [line, setLine] = useState<Array<Vector3>>([startingPoint]);
@@ -29,16 +29,16 @@ export const Branch: React.FC<BranchSettings> = (params) => {
     const [subBranches, setSubBranches] = useState<Array<BranchSettings>>([]);
 
     useEffect(() => {
-        if (I <=0 ) return;
+        if (I <=0 ) {
+            if (length>=1) setSubBranches(functions.heritage(params, line));
+            return;
+        }
         setI(I-1);
 
         const p = (functions.curve(I, length, curvingDirection).add(startingDirection).normalize()).add(line[line.length-1]);
         setLine([...line, p]);
 
-        if (functions.splitting(I, length)){
-            setSubBranches([...subBranches, functions.heritage(params)])
-        }
-    }, [I])
+    }, [I]);
 
     return <>
         <LineRenderer line={line}/>
