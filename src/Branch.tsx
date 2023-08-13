@@ -2,27 +2,46 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {Vector3} from "three";
 import {LineRenderer} from "./LineRenderer";
+import {CurveFunction} from "./BranchFunctions/CurveFunctions";
+import {SplittingFunctions} from "./BranchFunctions/SplittingFunctions";
+import {HeritageFunctions} from "./BranchFunctions/HeritageFunctions";
 
-interface BranchSettings {
-    length: number;
-    curvature: number;
-    direction: Vector3;
-    curvatureAngle: number;
-    startingPoint: Vector3;
+export interface BranchFunctions {
+    curve: CurveFunction;
+    splitting : SplittingFunctions;
+    heritage: HeritageFunctions;
 }
 
-export const Branch: React.FC<BranchSettings> = ({length, curvature, startingPoint}) => {
+export interface BranchSettings {
+    length: number;
+    startingDirection: Vector3;
+    curvingDirection: Vector3;
+    startingPoint: Vector3;
+
+    functions: BranchFunctions;
+}
+
+export const Branch: React.FC<BranchSettings> = (params) => {
+    const {length, startingDirection,curvingDirection, startingPoint, functions} = params;
     const [line, setLine] = useState<Array<Vector3>>([startingPoint]);
-    const [i, seti] = useState<number>(length)
+    const [I, setI] = useState<number>(length);
+
+    const [subBranches, setSubBranches] = useState<Array<BranchSettings>>([]);
 
     useEffect(() => {
-        if (i <=0 ) return;
-        const p = new Vector3(0,1,0).add(line[line.length-1]);
+        if (I <=0 ) return;
+        setI(I-1);
+
+        const p = (functions.curve(I, length, curvingDirection).add(startingDirection).normalize()).add(line[line.length-1]);
         setLine([...line, p]);
-        seti(i-1);
-    }, [i])
+
+        if (functions.splitting(I, length)){
+            setSubBranches([...subBranches, functions.heritage(params)])
+        }
+    }, [I])
 
     return <>
         <LineRenderer line={line}/>
+        {subBranches.map(br => <Branch key={Math.random()} {...br} />)}
     </>
 }
