@@ -12,9 +12,12 @@ export interface BranchFunctions {
 
 export interface BranchSettings {
     length: number;
+    step: number;
     startingDirection: Vector3;
     curvingDirection: Vector3;
     startingPoint: Vector3;
+    color?: string;
+    depth: number; // int
 
     functions: BranchFunctions;
 }
@@ -22,7 +25,7 @@ export interface BranchSettings {
 // todo : add branch depth for heritage func + floating I and step param
 
 export const Branch: React.FC<BranchSettings> = (params) => {
-    const {length, startingDirection,curvingDirection, startingPoint, functions} = params;
+    const {length, step, color = "green", startingDirection,curvingDirection, startingPoint, functions} = params;
     const [line, setLine] = useState<Array<Vector3>>([startingPoint]);
     const [I, setI] = useState<number>(length);
 
@@ -30,10 +33,10 @@ export const Branch: React.FC<BranchSettings> = (params) => {
 
     useEffect(() => {
         if (I <=0 ) {
-            if (length>=1) setSubBranches(functions.heritage(params, line));
+            if (length>step) setSubBranches(functions.heritage(params, line));
             return;
         }
-        setI(I-1);
+        setI(I-step);
 
         const p = (functions.curve(I, length, curvingDirection).add(startingDirection).normalize()).add(line[line.length-1]);
         setLine([...line, p]);
@@ -41,7 +44,7 @@ export const Branch: React.FC<BranchSettings> = (params) => {
     }, [I]);
 
     return <>
-        <LineRenderer line={line}/>
+        <LineRenderer color={color} step={step} line={line}/>
         {subBranches.map(br => <Branch key={Math.random()} {...br} />)}
     </>
 }

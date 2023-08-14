@@ -5,8 +5,8 @@ export interface CurveFunction {
 }
 
 export const parabolique: CurveFunction = (i, length, curvingDirection) => {
-    const h = -4.4;
-    const k = -0.5;
+    const h = 0;
+    const k = 0;
     const p = 0.6;
 
     const x = (1-i/length) * 5;

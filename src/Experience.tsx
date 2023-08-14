@@ -18,7 +18,7 @@ export default function () {
 
         <OrbitControls/>
 
-        <Branch length={20} startingDirection={new Vector3(0,1,0)} curvingDirection={new Vector3(0.1,0,0.5)} startingPoint={new Vector3(0,0,0)} functions={fcts} />
+        <Branch length={2} depth={0} startingDirection={new Vector3(0.1,1,0.05)} curvingDirection={new Vector3(0.1,0,0.5)} startingPoint={new Vector3(0,0,0)} functions={fcts}  step={0.2}/>
 
         <Placeholder scale={0.5} color={"red"}/>
 

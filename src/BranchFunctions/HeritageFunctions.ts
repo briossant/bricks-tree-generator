@@ -5,22 +5,28 @@ export interface HeritageFunctions{
     (settings: BranchSettings, line: Array<Vector3>): Array<BranchSettings>
 }
 
-export const basicHeritage:HeritageFunctions = ({length, startingDirection, startingPoint, functions, curvingDirection}, line) => {
+export const basicHeritage:HeritageFunctions = (params, line) => {
+
+    const {length, depth} = params;
 
     const endPoint = line[line.length-1];
-    const st_dir = new Vector3(0,0,0).add(endPoint).normalize();
+    const st_dir = new Vector3(1.1,1,1.1).multiply(endPoint).sub(line[line.length-2]).normalize();
 
     return [{
-        length: length/1.7,
+        ...params,
+        color: depth%2 == 0 ? "orange" : "green",
+        depth: depth+1,
+        length: length/1.3,
         startingDirection: st_dir,
         startingPoint: endPoint,
-        functions: functions,
-        curvingDirection: new Vector3(Math.random(), 0, Math.random())
+        curvingDirection: new Vector3(Math.random(), 0, Math.random()),
     },{
-        length: length/1.3,
-        startingDirection: startingDirection,
+        ...params,
+        color: depth%2 == 0 ? "orange" : "green",
+        depth: depth+1,
+        length: length/1.5,
+        startingDirection: new Vector3(2*(Math.random()-0.5), Math.random(), 2*(Math.random()-0.5)),
         startingPoint: endPoint,
-        functions: functions,
-        curvingDirection: new Vector3(Math.random(), 0, Math.random())
+        curvingDirection: new Vector3(Math.random(), 0, Math.random()),
     }];
 }
