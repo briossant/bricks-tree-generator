@@ -1,5 +1,6 @@
 import {BranchSettings} from "../Branch";
 import {Vector3} from "three";
+import {getRdmColor} from "../utilities";
 
 export interface HeritageFunctions{
     (settings: BranchSettings, line: Array<Vector3>): Array<BranchSettings>
@@ -14,7 +15,7 @@ export const basicHeritage:HeritageFunctions = (params, line) => {
 
     return [{
         ...params,
-        color: depth%2 == 0 ? "orange" : "green",
+        color: getRdmColor(),
         depth: depth+1,
         length: length/1.3,
         startingDirection: st_dir,
@@ -22,7 +23,7 @@ export const basicHeritage:HeritageFunctions = (params, line) => {
         curvingDirection: new Vector3(Math.random(), 0, Math.random()),
     },{
         ...params,
-        color: depth%2 == 0 ? "orange" : "green",
+        color: getRdmColor(),
         depth: depth+1,
         length: length/1.5,
         startingDirection: new Vector3(2*(Math.random()-0.5), Math.random(), 2*(Math.random()-0.5)),
