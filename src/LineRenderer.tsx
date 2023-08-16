@@ -1,7 +1,7 @@
-import React from "react";
-import {Vector3} from "three";
-import Placeholder from "./meshes/Placeholder";
+import React, {useRef} from "react";
+import { BoxGeometry, Vector3, Object3D, MeshToonMaterial} from "three";
 import Brique from "./meshes/Brique";
+import {useFrame} from "@react-three/fiber";
 
 export interface LineRendererConst {
     snap: Vector3,
@@ -24,9 +24,25 @@ const snapCoordinates: (coo: Vector3, step: number, snap: Vector3) => [number, n
     return [snapNumber(coo.x*step, snap.x), snapNumber(coo.y*step,snap.y), snapNumber(coo.z*step, snap.z)];
 }
 
-export const LineRenderer: React.FC<LineRendererSettings> = ({line, color, step, consts}) => {
+const tempBoxes = new Object3D();
 
-    return <>
-        {line.map(p => <Brique key={Math.random()+p.y} color={color} position={snapCoordinates(p, step, consts.snap)} scale={consts.scale} />)}
-    </>
+export const LineRenderer: React.FC<LineRendererSettings> = ({line, color, step, consts}) => {
+    const material = new MeshToonMaterial({ color: color });
+    const boxesGeometry = new BoxGeometry(consts.scale, consts.scale, consts.scale);
+
+    const ref = useRef();
+
+    useFrame(( ) => {
+        for (let x = 0; x < line.length; x++) {
+            const pos = snapCoordinates(line[x], step, consts.snap);
+            tempBoxes.position.set(...pos)
+            tempBoxes.updateMatrix();
+            // @ts-ignore
+            ref.current.setMatrixAt(x, tempBoxes.matrix);
+        }
+        // @ts-ignore
+        ref.current.instanceMatrix.needsUpdate = true;
+    });
+
+    return <instancedMesh ref={ref} args={[boxesGeometry, material, line.length]} />;
 }

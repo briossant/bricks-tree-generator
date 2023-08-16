@@ -3,7 +3,6 @@ import Placeholder from "./meshes/Placeholder";
 import {Branch, BranchFunctions} from "./Branch";
 import {Vector3} from "three";
 import {parabolique} from "./BranchFunctions/CurveFunctions";
-import {midSplit} from "./BranchFunctions/SplittingFunctions";
 import {basicHeritage} from "./BranchFunctions/HeritageFunctions";
 import {LineRendererConst} from "./LineRenderer";
 
@@ -16,7 +15,7 @@ export default function () {
 
     const consts: LineRendererConst = {
         snap: new Vector3(0.1, 0.2, 0.1),
-        scale: 0.2
+        scale: 0.4
     }
 
     return <>
