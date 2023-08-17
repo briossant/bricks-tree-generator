@@ -33,7 +33,7 @@ const getSettings: (Vector3) => BranchSettings = (startPos) => {
     }
 }
 
-// todo: stop recalculating all trees when adding a new one ; add model for the bricks ; stop rendering brick in one an other
+// todo: add model for the bricks ; stop rendering brick in one an other
 // todo : maybe voxel grid or coordinate list ; more randomness ; presets
 
 export default function () {
@@ -48,7 +48,7 @@ export default function () {
 
         <OrbitControls/>
 
-        {branches.map(set => <Branch key={Math.random()} {...set}/>)}
+        {branches.map((set,i) => <Branch key={i} {...set}/>)}
 
         <mesh scale={[200,200,1]} rotation={[-Math.PI/2,0,0]} onClick={eventHandler} >
             <planeGeometry/>

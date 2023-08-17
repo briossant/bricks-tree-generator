@@ -46,6 +46,6 @@ export const Branch: React.FC<BranchSettings> = (params) => {
 
     return <>
         <LineRenderer color={color} consts={lineRendererConst} step={step} line={line} />
-        {subBranches.map(br => <Branch key={Math.random()} {...br} />)}
+        {subBranches.map((br,i) => <Branch key={i} {...br} />)}
     </>
 }
