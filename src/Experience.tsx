@@ -7,6 +7,7 @@ import {basicHeritage} from "./BranchFunctions/HeritageFunctions";
 import {LineRendererConst} from "./LineRenderer";
 import {useState} from "react";
 import {getRdmVector} from "./utilities";
+import {Grid} from "./grid";
 
 
 const fcts: BranchFunctions = {
@@ -19,7 +20,7 @@ const consts: LineRendererConst = {
     scale: 0.4
 }
 
-const getSettings: (Vector3) => BranchSettings = (startPos) => {
+const getSettings: (startPos: Vector3) => BranchSettings = (startPos) => {
     const step = 0.4
     return {
         length:2,
@@ -38,6 +39,8 @@ const getSettings: (Vector3) => BranchSettings = (startPos) => {
 
 export default function () {
     const [branches, setBranches] = useState<Array<BranchSettings>>([getSettings(new Vector3(0,0,0))])
+
+    Grid.newGrid(new Vector3(5000,5000,100));
 
     const eventHandler = (event) =>
     {
