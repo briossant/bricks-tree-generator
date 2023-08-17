@@ -6,36 +6,42 @@ import {parabolique} from "./BranchFunctions/CurveFunctions";
 import {basicHeritage} from "./BranchFunctions/HeritageFunctions";
 import {LineRendererConst} from "./LineRenderer";
 import {useState} from "react";
+import {getRdmVector} from "./utilities";
 
-export default function () {
 
-    const fcts: BranchFunctions = {
-        curve: parabolique,
-        heritage: basicHeritage
-    }
+const fcts: BranchFunctions = {
+    curve: parabolique,
+    heritage: basicHeritage
+}
 
-    const consts: LineRendererConst = {
-        snap: new Vector3(0.1, 0.2, 0.1),
-        scale: 0.4
-    }
+const consts: LineRendererConst = {
+    snap: new Vector3(0.1, 0.2, 0.1),
+    scale: 0.4
+}
 
-    const seti: BranchSettings = {
+const getSettings: (Vector3) => BranchSettings = (startPos) => {
+    const step = 0.4
+    return {
         length:2,
         depth:0,
-        step:0.4,
-        startingDirection:new Vector3(0.1,1,0.05),
-        curvingDirection:new Vector3(0.1,0,0.5),
-        startingPoint:new Vector3(0,0,0),
+        step:step,
+        startingDirection:new Vector3(0,1,0),
+        curvingDirection:getRdmVector(),
+        startingPoint: startPos.divide(new Vector3(step,step,step)),
         functions:fcts,
         lineRendererConst:consts
     }
+}
 
-    const [branches, setBranches] = useState<Array<BranchSettings>>([{...seti}])
+// todo: stop recalculating all trees when adding a new one ; add model for the bricks ; stop rendering brick in one an other
+// todo : maybe voxel grid or coordinate list ; more randomness ; presets
+
+export default function () {
+    const [branches, setBranches] = useState<Array<BranchSettings>>([getSettings(new Vector3(0,0,0))])
 
     const eventHandler = (event) =>
     {
-        console.log(event)
-        setBranches([...branches, {...seti, startingPoint: event.point}])
+        setBranches([...branches, getSettings(event.point)])
     }
 
     return <>
@@ -44,7 +50,7 @@ export default function () {
 
         {branches.map(set => <Branch key={Math.random()} {...set}/>)}
 
-        <mesh scale={[20,20,1]} rotation={[-Math.PI/2,0,0]} onClick={eventHandler} >
+        <mesh scale={[200,200,1]} rotation={[-Math.PI/2,0,0]} onClick={eventHandler} >
             <planeGeometry/>
             <meshToonMaterial/>
         </mesh>
