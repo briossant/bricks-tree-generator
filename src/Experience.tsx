@@ -4,10 +4,10 @@ import {Branch, BranchFunctions, BranchSettings} from "./Branch";
 import {Vector3} from "three";
 import {parabolique} from "./BranchFunctions/CurveFunctions";
 import {basicHeritage} from "./BranchFunctions/HeritageFunctions";
-import {LineRendererConst} from "./LineRenderer";
 import {useState} from "react";
 import {getRdmVector} from "./utilities";
 import {Grid} from "./grid";
+import {Tree, TreeSettings} from "./Tree";
 
 
 const fcts: BranchFunctions = {
@@ -15,22 +15,16 @@ const fcts: BranchFunctions = {
     heritage: basicHeritage
 }
 
-const consts: LineRendererConst = {
-    snap: new Vector3(0.1, 0.2, 0.1),
-    scale: 0.4
-}
-
-const getSettings: (startPos: Vector3) => BranchSettings = (startPos) => {
-    const step = 0.4
+const getSettings: (startPos: Vector3) => TreeSettings = (startPos) => {
     return {
         length:2,
-        depth:0,
-        step:step,
+        step: 0.4,
+        snap: new Vector3(0.1, 0.2, 0.1),
+        scale: 0.4,
         startingDirection:new Vector3(0,1,0),
         curvingDirection:getRdmVector(),
-        startingPoint: startPos.divide(new Vector3(step,step,step)),
+        startingPoint: startPos,
         functions:fcts,
-        lineRendererConst:consts
     }
 }
 
@@ -38,20 +32,20 @@ const getSettings: (startPos: Vector3) => BranchSettings = (startPos) => {
 // todo : maybe voxel grid or coordinate list ; more randomness ; presets
 
 export default function () {
-    const [branches, setBranches] = useState<Array<BranchSettings>>([getSettings(new Vector3(0,0,0))])
+    const [trees, setTrees] = useState<Array<TreeSettings>>([getSettings(new Vector3(0,0,0))])
 
     Grid.newGrid(new Vector3(5000,5000,100));
 
     const eventHandler = (event) =>
     {
-        setBranches([...branches, getSettings(event.point)])
+        setTrees([...trees, getSettings(event.point)])
     }
 
     return <>
 
         <OrbitControls/>
 
-        {branches.map((set,i) => <Branch key={i} {...set}/>)}
+        {trees.map((set,i) => <Tree key={i} {...set}/>)}
 
         <mesh scale={[200,200,1]} rotation={[-Math.PI/2,0,0]} onClick={eventHandler} >
             <planeGeometry/>

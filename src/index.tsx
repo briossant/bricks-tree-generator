@@ -12,7 +12,7 @@ root.render(
         camera={ {
             fov: 45,
             near: 1,
-            far: 200,
+            far: 400,
             position: [ - 20, 10, 24 ]
         } }
     >

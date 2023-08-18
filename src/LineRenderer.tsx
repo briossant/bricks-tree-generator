@@ -4,16 +4,11 @@ import Brique from "./meshes/Brique";
 import {useFrame} from "@react-three/fiber";
 import {getRdmFloat} from "./utilities";
 
-export interface LineRendererConst {
-    snap: Vector3,
-    scale: number
-}
-
 interface LineRendererSettings {
     line: Array<Vector3>,
-    color: string,
     step: number,
-    consts: LineRendererConst
+    scale: number,
+    snap: Vector3
 }
 
 const snapNumber: (x:number, snap:number) => number = (x, snap) => {
@@ -27,15 +22,15 @@ const snapCoordinates: (coo: Vector3, step: number, snap: Vector3) => [number, n
 
 const tempBoxes = new Object3D();
 
-export const LineRenderer: React.FC<LineRendererSettings> = ({line, color, step, consts}) => {
-    const material = new MeshToonMaterial({ color: color });
-    const boxesGeometry = new BoxGeometry(consts.scale, consts.scale, consts.scale);
+export const LineRenderer: React.FC<LineRendererSettings> = ({line, scale, step, snap}) => {
+    const material = new MeshToonMaterial({ color: "green" });
+    const boxesGeometry = new BoxGeometry(scale, scale, scale);
 
     const ref = useRef();
 
     useFrame(( ) => {
         for (let x = 0; x < line.length; x++) {
-            const pos = snapCoordinates(line[x], step, consts.snap);
+            const pos = snapCoordinates(line[x], step, snap);
             tempBoxes.position.set(...pos)
             tempBoxes.updateMatrix();
             // @ts-ignore

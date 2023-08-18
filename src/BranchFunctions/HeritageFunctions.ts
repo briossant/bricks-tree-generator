@@ -3,31 +3,26 @@ import {Vector3} from "three";
 import {getRdmColor, getRdmFloat, getRdmVector} from "../utilities";
 
 export interface HeritageFunctions{
-    (settings: BranchSettings, line: Array<Vector3>): Array<BranchSettings>
+    (settings: BranchSettings, lastPoint: Vector3, lastDir:Vector3): Array<BranchSettings>
 }
 
-export const basicHeritage:HeritageFunctions = (params, line) => {
+export const basicHeritage:HeritageFunctions = (params, lastPoint, lastDir) => {
 
     const {length, depth, startingDirection} = params;
 
-    const endPoint = line[line.length-1];
-    const st_dir = endPoint.clone().sub(line[line.length-2]);
-
     return [{
         ...params,
-        color: getRdmColor(),
         depth: depth+1,
         length: length/1.2,
-        startingDirection: st_dir,
-        startingPoint: endPoint,
+        startingDirection: lastDir,
+        startingPoint: lastPoint,
         curvingDirection: getRdmVector(),
     },{
         ...params,
-        color: getRdmColor(),
         depth: depth+1,
         length: length/1.3,
-        startingDirection: st_dir.clone().applyAxisAngle(startingDirection, -Math.PI).normalize(),
-        startingPoint: endPoint,
+        startingDirection: lastDir.clone().applyAxisAngle(startingDirection, -Math.PI).normalize(),
+        startingPoint: lastPoint,
         curvingDirection: getRdmVector(),
     }];
 }
