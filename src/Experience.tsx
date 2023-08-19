@@ -8,6 +8,7 @@ import {useState} from "react";
 import {getRdmVector} from "./utilities";
 import {Grid} from "./grid";
 import {Tree, TreeSettings} from "./Tree";
+import {Perf} from "r3f-perf";
 
 
 const fcts: BranchFunctions = {
@@ -42,6 +43,8 @@ export default function () {
     }
 
     return <>
+
+        <Perf/>
 
         <OrbitControls/>
 

@@ -1,8 +1,6 @@
-import React, {useEffect, useRef} from "react";
-import { BoxGeometry, Vector3, Object3D, MeshToonMaterial} from "three";
-import Brique from "./meshes/Brique";
+import React, {useEffect, useRef, useState} from "react";
+import { BoxGeometry, Vector3, Object3D, MeshToonMaterial, Color} from "three";
 import {useFrame} from "@react-three/fiber";
-import {getRdmFloat} from "./utilities";
 
 interface LineRendererSettings {
     line: Array<Vector3>,
@@ -20,25 +18,48 @@ const snapCoordinates: (coo: Vector3, step: number, snap: Vector3) => [number, n
     return [snapNumber(coo.x*step, snap.x), snapNumber(coo.y*step,snap.y), snapNumber(coo.z*step, snap.z)];
 }
 
+const getColor: (x: number, y: number, z: number) => string = (x, y, z) => {
+    const colors = ["#ff891f", "#1fc0ff", "#ff1ff0"]
+    return colors[Math.floor(Math.abs(((x*133 + (y+12)*41 + z)) % colors.length))]
+}
+
 const tempBoxes = new Object3D();
 
 export const LineRenderer: React.FC<LineRendererSettings> = ({line, scale, step, snap}) => {
-    const material = new MeshToonMaterial({ color: "green" });
+    const material = new MeshToonMaterial({ color: "white" });
     const boxesGeometry = new BoxGeometry(scale, scale, scale);
+    const [pos, setPos] = useState<Array<[number,number,number]>>([]);
+    const [color, setColor] = useState<Array<string>>([]);
+
+    useEffect(() => {
+        const p = [];
+        const c = [];
+        for (let i = 0; i < line.length; i++) {
+            p.push(snapCoordinates(line[i], step, snap));
+            // @ts-ignore
+            c.push(new Color(getColor(...p[i])));
+        }
+        setPos(p);
+        setColor(c);
+    }, [line])
 
     const ref = useRef();
 
     useFrame(( ) => {
-        for (let x = 0; x < line.length; x++) {
-            const pos = snapCoordinates(line[x], step, snap);
-            tempBoxes.position.set(...pos)
+        for (let x = 0; x < pos.length; x++) {
+            // @ts-ignore
+            tempBoxes.position.set(...pos[x])
             tempBoxes.updateMatrix();
+            // @ts-ignore
+            ref.current.setColorAt(x, color[x]);
             // @ts-ignore
             ref.current.setMatrixAt(x, tempBoxes.matrix);
         }
         // @ts-ignore
         ref.current.instanceMatrix.needsUpdate = true;
+        // @ts-ignore
+        ref.current.instanceColor.needsUpdate = true;
     });
 
-    return <instancedMesh ref={ref} args={[boxesGeometry, material, line.length]} />;
+    return <instancedMesh ref={ref} args={[boxesGeometry, material, pos.length]} />;
 }
