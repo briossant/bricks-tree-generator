@@ -1,6 +1,6 @@
 import {OrbitControls} from "@react-three/drei";
 import Placeholder from "./meshes/Placeholder";
-import {Branch, BranchFunctions, BranchSettings} from "./Branch";
+import {BranchFunctions} from "./Branch";
 import {Vector3} from "three";
 import {parabolique} from "./BranchFunctions/CurveFunctions";
 import {basicHeritage} from "./BranchFunctions/HeritageFunctions";
@@ -9,6 +9,7 @@ import {getRdmVector} from "./utilities";
 import {Grid} from "./grid";
 import {Tree, TreeSettings} from "./Tree";
 import {Perf} from "r3f-perf";
+import {useControls} from "leva";
 
 
 const fcts: BranchFunctions = {
@@ -16,24 +17,35 @@ const fcts: BranchFunctions = {
     heritage: basicHeritage
 }
 
-const getSettings: (startPos: Vector3) => TreeSettings = (startPos) => {
-    return {
-        length:2,
-        step: 0.4,
-        snap: new Vector3(0.1, 0.2, 0.1),
-        scale: 0.4,
-        startingDirection:new Vector3(0,1,0),
-        curvingDirection:getRdmVector(),
-        startingPoint: startPos,
-        functions:fcts,
-    }
-}
 
-// todo: add model for the bricks ; stop rendering brick in one an other
-// todo : maybe voxel grid or coordinate list ; more randomness ; presets
+
+// todo: add model for the bricks ; stop rendering brick in one an other maybe voxel grid or coordinate list ;
+// todo : more randomness ; presets
 
 export default function () {
+    const {length} = useControls( {
+        length: {
+            value: 2,
+            min: 0,
+            max: 5,
+            step: 0.01
+        }
+    })
+
+    const getSettings: (startPos: Vector3) => TreeSettings = (startPos) => {
+        return {
+            length: length,
+            step: 0.4,
+            snap: new Vector3(0.2, 0.4, 0.2),
+            scale: 0.4,
+            startingDirection:new Vector3(0,1,0),
+            curvingDirection:getRdmVector(),
+            startingPoint: startPos,
+            functions:fcts,
+        }
+    }
     const [trees, setTrees] = useState<Array<TreeSettings>>([getSettings(new Vector3(0,0,0))])
+
 
     Grid.newGrid(new Vector3(5000,5000,100));
 
@@ -44,7 +56,7 @@ export default function () {
 
     return <>
 
-        <Perf/>
+        <Perf position="top-left"/>
 
         <OrbitControls/>
 

@@ -1,6 +1,6 @@
 import {BranchSettings} from "../Branch";
 import {Vector3} from "three";
-import {getRdmColor, getRdmFloat, getRdmVector} from "../utilities";
+import { getRdmVector} from "../utilities";
 
 export interface HeritageFunctions{
     (settings: BranchSettings, lastPoint: Vector3, lastDir:Vector3): Array<BranchSettings>

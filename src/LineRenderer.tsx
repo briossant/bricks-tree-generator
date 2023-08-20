@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import { BoxGeometry, Vector3, Object3D, MeshToonMaterial, Color} from "three";
 import {useFrame} from "@react-three/fiber";
+import {Grid} from "./grid";
 
 interface LineRendererSettings {
     line: Array<Vector3>,
@@ -35,12 +36,15 @@ export const LineRenderer: React.FC<LineRendererSettings> = ({line, scale, step,
         const p = [];
         const c = [];
         for (let i = 0; i < line.length; i++) {
-            p.push(snapCoordinates(line[i], step, snap));
+            const coo = snapCoordinates(line[i], step, snap);
+            if(Grid.at(new Vector3(...coo))) continue;
+            Grid.set(new Vector3(...coo));
+            p.push(coo);
             // @ts-ignore
-            c.push(new Color(getColor(...p[i])));
+            c.push(new Color(getColor(...p[p.length-1])));
         }
-        setPos(p);
-        setColor(c);
+        setPos([...pos, ...p]);
+        setColor([...color, ...c]);
     }, [line])
 
     const ref = useRef();
@@ -57,8 +61,6 @@ export const LineRenderer: React.FC<LineRendererSettings> = ({line, scale, step,
         }
         // @ts-ignore
         ref.current.instanceMatrix.needsUpdate = true;
-        // @ts-ignore
-        ref.current.instanceColor.needsUpdate = true;
     });
 
     return <instancedMesh ref={ref} args={[boxesGeometry, material, pos.length]} />;
