@@ -18,6 +18,7 @@ export interface TreeSettings {
 export const Tree: React.FC<TreeSettings> = ({length, step,curvingDirection,
                  startingDirection,startingPoint,functions,geometry,snap}) => {
     const [line, setLine] = useState<Array<Vector3>>([]);
+    const [colors, setColors] = useState<Array<string>>([]);
 
     startingPoint.divide(new Vector3(step, step, step));
 
@@ -31,7 +32,8 @@ export const Tree: React.FC<TreeSettings> = ({length, step,curvingDirection,
             setLine={setLine}
             depth={0}
             functions={functions}
+            setColors={setColors}
         />
-        <LineRenderer line={line} step={step} snap={snap} geometry={geometry} />
+        <LineRenderer line={line} colors={colors} step={step} snap={snap} geometry={geometry} />
     </>
 }

@@ -10,11 +10,13 @@ import {Grid} from "./grid";
 import {Tree, TreeSettings} from "./Tree";
 import {Perf} from "r3f-perf";
 import {useControls} from "leva";
+import {classicColors} from "./BranchFunctions/ColorationFunctions";
 
 
 const fcts: BranchFunctions = {
     curve: parabolique,
-    heritage: basicHeritage
+    heritage: basicHeritage,
+    coloration: classicColors
 }
 
 
@@ -36,7 +38,7 @@ export default function () {
     const {length} = useControls( {
         length: {
             value: 4,
-            min: 0,
+            min: 3,
             max: 10,
             step: 0.01
         }
@@ -77,7 +79,6 @@ export default function () {
             <meshToonMaterial/>
         </mesh>
 
-        <Placeholder scale={0.5} color={"red"}/>
         <directionalLight color={"#ffffff"} castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04}/>
         <ambientLight intensity={0.5}/>
 

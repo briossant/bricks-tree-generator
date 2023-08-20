@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState} from "react";
-import { BoxGeometry, Vector3, Object3D, MeshToonMaterial, Color} from "three";
+import {Vector3, Object3D, Color, MeshLambertMaterial} from "three";
 import {useFrame} from "@react-three/fiber";
 import {Grid} from "./grid";
-import {useGLTF} from "@react-three/drei";
 
 interface LineRendererSettings {
-    line: Array<Vector3>,
-    step: number,
-    geometry: any,
-    snap: Vector3
+    line: Array<Vector3>;
+    colors: Array<string>;
+    step: number;
+    geometry: any;
+    snap: Vector3;
 }
 
 const snapNumber: (x:number, snap:number) => number = (x, snap) => {
@@ -27,8 +27,8 @@ const getColor: (x: number, y: number, z: number) => string = (x, y, z) => {
 
 const tempBoxes = new Object3D();
 
-export const LineRenderer: React.FC<LineRendererSettings> = ({line, geometry, step, snap}) => {
-    const material = new MeshToonMaterial();
+export const LineRenderer: React.FC<LineRendererSettings> = ({line, colors, geometry, step, snap}) => {
+    const material = new MeshLambertMaterial();
 
     const [pos, setPos] = useState<Array<[number,number,number]>>([]);
     const [color, setColor] = useState<Array<string>>([]);
@@ -38,6 +38,7 @@ export const LineRenderer: React.FC<LineRendererSettings> = ({line, geometry, st
         const c = [];
         for (let i = 0; i < line.length; i++) {
             const coo = snapCoordinates(line[i], step, snap);
+
             if(Grid.at(new Vector3(...coo)) || Grid.at(new Vector3(coo[0] + snap.x, coo[1], coo[2]))
                 || Grid.at(new Vector3(coo[0] , coo[1], coo[2] + snap.z))
                 || Grid.at(new Vector3(coo[0] + snap.x, coo[1], coo[2]+ snap.z))) continue;
@@ -45,9 +46,10 @@ export const LineRenderer: React.FC<LineRendererSettings> = ({line, geometry, st
             Grid.set(new Vector3(coo[0] + snap.x, coo[1], coo[2]));
             Grid.set(new Vector3(coo[0] , coo[1], coo[2] + snap.z));
             Grid.set(new Vector3(coo[0] + snap.x, coo[1], coo[2]+ snap.z));
+
             p.push(coo);
             // @ts-ignore
-            c.push(new Color(getColor(...p[p.length-1])));
+            c.push(new Color(colors[i]));
         }
         setPos([...pos, ...p]);
         setColor([...color, ...c]);
