@@ -2,21 +2,19 @@ import React, {useState} from "react";
 import {Vector3} from "three";
 import {Branch, BranchFunctions} from "./Branch";
 import {LineRenderer} from "./LineRenderer";
+import {getRdmVector} from "./utilities";
 
 export interface TreeSettings {
     length: number;
     step: number;
     geometry: any;
-    startingDirection: Vector3;
-    curvingDirection: Vector3;
     startingPoint: Vector3;
     snap: Vector3;
 
     functions: BranchFunctions;
 }
 
-export const Tree: React.FC<TreeSettings> = ({length, step,curvingDirection,
-                 startingDirection,startingPoint,functions,geometry,snap}) => {
+export const Tree: React.FC<TreeSettings> = ({length, step, startingPoint,functions,geometry,snap}) => {
     const [line, setLine] = useState<Array<Vector3>>([]);
     const [colors, setColors] = useState<Array<string>>([]);
 
@@ -26,8 +24,8 @@ export const Tree: React.FC<TreeSettings> = ({length, step,curvingDirection,
         <Branch
             length={length}
             step={step}
-            startingDirection={startingDirection}
-            curvingDirection={curvingDirection}
+            startingDirection={new Vector3(0,1,0)}
+            curvingDirection={getRdmVector()}
             startingPoint={startingPoint}
             setLine={setLine}
             depth={0}

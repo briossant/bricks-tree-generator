@@ -1,11 +1,9 @@
 import {OrbitControls, useGLTF} from "@react-three/drei";
-import Placeholder from "./meshes/Placeholder";
 import {BranchFunctions} from "./Branch";
 import {Vector3} from "three";
 import {parabolique} from "./BranchFunctions/CurveFunctions";
-import {basicHeritage} from "./BranchFunctions/HeritageFunctions";
+import {basicHeritage, pinHeritage} from "./BranchFunctions/HeritageFunctions";
 import {useState} from "react";
-import {getRdmVector} from "./utilities";
 import {Grid} from "./grid";
 import {Tree, TreeSettings} from "./Tree";
 import {Perf} from "r3f-perf";
@@ -13,16 +11,23 @@ import {useControls} from "leva";
 import {classicColors} from "./BranchFunctions/ColorationFunctions";
 
 
-const fcts: BranchFunctions = {
-    curve: parabolique,
-    heritage: basicHeritage,
-    coloration: classicColors
+const fcts: { [name: string]: BranchFunctions } = {
+    "basic": {
+        curve: parabolique(0.3),
+        heritage: basicHeritage,
+        coloration: classicColors
+    },
+    "pin": {
+        curve: parabolique(2),
+        heritage: pinHeritage,
+        coloration: classicColors
+    }
 }
 
 
 
-// todo :  stop rendering brick in one an other maybe voxel grid or coordinate list ;
-// todo : more randomness ; presets ; put back colors in branch settings -> colors controlled using heritage fct
+// todo :
+// todo : more randomness ; presets
 
 export default function () {
     const scale = 1;
@@ -34,13 +39,15 @@ export default function () {
         setHasBeenScaled(true);
     }
 
-
-    const {length} = useControls( {
+    const {length, preset} = useControls( {
         length: {
             value: 4,
             min: 3,
-            max: 10,
+            max: 20,
             step: 0.01
+        },
+        preset: {
+            options: Object.keys(fcts)
         }
     })
 
@@ -50,10 +57,8 @@ export default function () {
             step: scale,
             snap: new Vector3(0.79, 0.98, 0.79),
             geometry: nodes.Lego.geometry,
-            startingDirection:new Vector3(0,1,0),
-            curvingDirection:getRdmVector(),
             startingPoint: startPos,
-            functions:fcts,
+            functions:fcts[preset],
         }
     }
     const [trees, setTrees] = useState<Array<TreeSettings>>([getSettings(new Vector3(0,0,0))])
