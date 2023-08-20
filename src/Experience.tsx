@@ -1,4 +1,4 @@
-import {OrbitControls} from "@react-three/drei";
+import {OrbitControls, useGLTF} from "@react-three/drei";
 import Placeholder from "./meshes/Placeholder";
 import {BranchFunctions} from "./Branch";
 import {Vector3} from "three";
@@ -19,15 +19,25 @@ const fcts: BranchFunctions = {
 
 
 
-// todo: add model for the bricks ; stop rendering brick in one an other maybe voxel grid or coordinate list ;
-// todo : more randomness ; presets
+// todo :  stop rendering brick in one an other maybe voxel grid or coordinate list ;
+// todo : more randomness ; presets ; put back colors in branch settings -> colors controlled using heritage fct
 
 export default function () {
+    const scale = 1;
+    // @ts-ignore
+    const { nodes } = useGLTF("./lego.glb");
+    const [hasBeenScaled, setHasBeenScaled] = useState<boolean>(false);
+    if (!hasBeenScaled){
+        nodes.Lego.geometry.scale(scale,scale,scale);
+        setHasBeenScaled(true);
+    }
+
+
     const {length} = useControls( {
         length: {
-            value: 2,
+            value: 4,
             min: 0,
-            max: 5,
+            max: 10,
             step: 0.01
         }
     })
@@ -35,9 +45,9 @@ export default function () {
     const getSettings: (startPos: Vector3) => TreeSettings = (startPos) => {
         return {
             length: length,
-            step: 0.4,
-            snap: new Vector3(0.2, 0.4, 0.2),
-            scale: 0.4,
+            step: scale,
+            snap: new Vector3(0.79, 0.98, 0.79),
+            geometry: nodes.Lego.geometry,
             startingDirection:new Vector3(0,1,0),
             curvingDirection:getRdmVector(),
             startingPoint: startPos,

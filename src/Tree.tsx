@@ -6,7 +6,7 @@ import {LineRenderer} from "./LineRenderer";
 export interface TreeSettings {
     length: number;
     step: number;
-    scale: number;
+    geometry: any;
     startingDirection: Vector3;
     curvingDirection: Vector3;
     startingPoint: Vector3;
@@ -16,7 +16,7 @@ export interface TreeSettings {
 }
 
 export const Tree: React.FC<TreeSettings> = ({length, step,curvingDirection,
-                 startingDirection,startingPoint,functions,scale,snap}) => {
+                 startingDirection,startingPoint,functions,geometry,snap}) => {
     const [line, setLine] = useState<Array<Vector3>>([]);
 
     startingPoint.divide(new Vector3(step, step, step));
@@ -32,6 +32,6 @@ export const Tree: React.FC<TreeSettings> = ({length, step,curvingDirection,
             depth={0}
             functions={functions}
         />
-        <LineRenderer line={line} step={step} snap={snap} scale={scale} />
+        <LineRenderer line={line} step={step} snap={snap} geometry={geometry} />
     </>
 }

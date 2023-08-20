@@ -2,11 +2,12 @@ import React, {useEffect, useRef, useState} from "react";
 import { BoxGeometry, Vector3, Object3D, MeshToonMaterial, Color} from "three";
 import {useFrame} from "@react-three/fiber";
 import {Grid} from "./grid";
+import {useGLTF} from "@react-three/drei";
 
 interface LineRendererSettings {
     line: Array<Vector3>,
     step: number,
-    scale: number,
+    geometry: any,
     snap: Vector3
 }
 
@@ -20,15 +21,15 @@ const snapCoordinates: (coo: Vector3, step: number, snap: Vector3) => [number, n
 }
 
 const getColor: (x: number, y: number, z: number) => string = (x, y, z) => {
-    const colors = ["#ff891f", "#1fc0ff", "#ff1ff0"]
-    return colors[Math.floor(Math.abs(((x*133 + (y+12)*41 + z)) % colors.length))]
+    const colors = ["#ff891f", "#1fc0ff", "#ff1ff0"];
+    return colors[Math.floor(Math.abs(((x*133 + (y+12)*41 + z)) % colors.length))];
 }
 
 const tempBoxes = new Object3D();
 
-export const LineRenderer: React.FC<LineRendererSettings> = ({line, scale, step, snap}) => {
-    const material = new MeshToonMaterial({ color: "white" });
-    const boxesGeometry = new BoxGeometry(scale, scale, scale);
+export const LineRenderer: React.FC<LineRendererSettings> = ({line, geometry, step, snap}) => {
+    const material = new MeshToonMaterial({ color: "#ff00ff" });
+
     const [pos, setPos] = useState<Array<[number,number,number]>>([]);
     const [color, setColor] = useState<Array<string>>([]);
 
@@ -45,7 +46,7 @@ export const LineRenderer: React.FC<LineRendererSettings> = ({line, scale, step,
         }
         setPos([...pos, ...p]);
         setColor([...color, ...c]);
-    }, [line])
+    }, [line]);
 
     const ref = useRef();
 
@@ -63,5 +64,5 @@ export const LineRenderer: React.FC<LineRendererSettings> = ({line, scale, step,
         ref.current.instanceMatrix.needsUpdate = true;
     });
 
-    return <instancedMesh ref={ref} args={[boxesGeometry, material, pos.length]} />;
+    return <instancedMesh ref={ref} args={[geometry, material, pos.length]} />;
 }
