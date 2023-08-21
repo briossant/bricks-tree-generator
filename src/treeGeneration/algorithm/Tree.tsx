@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {Vector3} from "three";
 import {Branch, BranchFunctions} from "./Branch";
-import {LineRenderer} from "./LineRenderer";
-import {getRdmVector} from "./utilities";
+import {LineRenderer} from "../rendering/LineRenderer";
+import {getRdmVector} from "../../utilities";
 
 export interface TreeSettings {
     length: number;

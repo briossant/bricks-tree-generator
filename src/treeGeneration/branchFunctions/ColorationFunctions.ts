@@ -1,4 +1,4 @@
-import {getRdmInt} from "../utilities";
+import {getRdmInt} from "../../utilities";
 
 export interface ColorationFunctions {
     (length: number, step: number): string

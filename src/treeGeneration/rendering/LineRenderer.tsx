@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Vector3, Object3D, Color, MeshLambertMaterial} from "three";
 import {useFrame} from "@react-three/fiber";
-import {Grid} from "./grid";
+import {Grid} from "../algorithm/grid";
 
 interface LineRendererSettings {
     line: Array<Vector3>;

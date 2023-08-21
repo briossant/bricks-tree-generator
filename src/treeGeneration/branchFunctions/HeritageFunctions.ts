@@ -1,6 +1,6 @@
-import {BranchSettings} from "../Branch";
+import {BranchSettings} from "../algorithm/Branch";
 import {Vector2, Vector3} from "three";
-import {getRdmFloat, getRdmVector} from "../utilities";
+import {getRdmFloat, getRdmVector} from "../../utilities";
 import {parabolique} from "./CurveFunctions";
 
 export interface HeritageFunctions{

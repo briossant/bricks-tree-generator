@@ -1,9 +1,9 @@
 import * as React from "react";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {Vector3} from "three";
-import {CurveFunction} from "./BranchFunctions/CurveFunctions";
-import {HeritageFunctions} from "./BranchFunctions/HeritageFunctions";
-import {ColorationFunctions} from "./BranchFunctions/ColorationFunctions";
+import {CurveFunction} from "../branchFunctions/CurveFunctions";
+import {HeritageFunctions} from "../branchFunctions/HeritageFunctions";
+import {ColorationFunctions} from "../branchFunctions/ColorationFunctions";
 
 export interface BranchFunctions {
     curve: CurveFunction;
