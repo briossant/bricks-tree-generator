@@ -25,6 +25,10 @@ const getColor: (x: number, y: number, z: number) => string = (x, y, z) => {
     return colors[Math.floor(Math.abs(((x*133 + (y+12)*41 + z)) % colors.length))];
 }
 
+const cooParseForGrid = (coo, snap) => {
+    return new Vector3(Math.round(coo[0]/snap.x),Math.round(coo[1]/snap.y),Math.round(coo[2]/snap.z));
+}
+
 const tempBoxes = new Object3D();
 
 export const LineRenderer: React.FC<LineRendererSettings> = ({line, colors, geometry, step, snap}) => {
@@ -38,14 +42,9 @@ export const LineRenderer: React.FC<LineRendererSettings> = ({line, colors, geom
         const c = [];
         for (let i = 0; i < line.length; i++) {
             const coo = snapCoordinates(line[i], step, snap);
-
-            if(Grid.at(new Vector3(...coo)) || Grid.at(new Vector3(coo[0] + snap.x, coo[1], coo[2]))
-                || Grid.at(new Vector3(coo[0] , coo[1], coo[2] + snap.z))
-                || Grid.at(new Vector3(coo[0] + snap.x, coo[1], coo[2]+ snap.z))) continue;
-            Grid.set(new Vector3(...coo));
-            Grid.set(new Vector3(coo[0] + snap.x, coo[1], coo[2]));
-            Grid.set(new Vector3(coo[0] , coo[1], coo[2] + snap.z));
-            Grid.set(new Vector3(coo[0] + snap.x, coo[1], coo[2]+ snap.z));
+            const gridCoo = cooParseForGrid(coo, snap);
+            if(Grid.atBox(gridCoo)) {continue;}
+            Grid.setBox(gridCoo);
 
             p.push(coo);
             // @ts-ignore

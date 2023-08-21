@@ -64,7 +64,6 @@ export default function () {
     const [trees, setTrees] = useState<Array<TreeSettings>>([getSettings(new Vector3(0,0,0))])
 
 
-    Grid.newGrid(new Vector3(5000,5000,100));
 
     const eventHandler = (event) =>
     {
