@@ -1,19 +1,14 @@
-import React, {useEffect, useRef} from "react";
-import { BoxGeometry, Vector3, Object3D, MeshToonMaterial} from "three";
-import Brique from "./meshes/Brique";
+import React, {useEffect, useRef, useState} from "react";
+import {Vector3, Object3D, Color, MeshLambertMaterial} from "three";
 import {useFrame} from "@react-three/fiber";
-import {getRdmFloat} from "./utilities";
-
-export interface LineRendererConst {
-    snap: Vector3,
-    scale: number
-}
+import {Grid} from "./grid";
 
 interface LineRendererSettings {
-    line: Array<Vector3>,
-    color: string,
-    step: number,
-    consts: LineRendererConst
+    line: Array<Vector3>;
+    colors: Array<string>;
+    step: number;
+    geometry: any;
+    snap: Vector3;
 }
 
 const snapNumber: (x:number, snap:number) => number = (x, snap) => {
@@ -25,19 +20,49 @@ const snapCoordinates: (coo: Vector3, step: number, snap: Vector3) => [number, n
     return [snapNumber(coo.x*step, snap.x), snapNumber(coo.y*step,snap.y), snapNumber(coo.z*step, snap.z)];
 }
 
+const getColor: (x: number, y: number, z: number) => string = (x, y, z) => {
+    const colors = ["#ff891f", "#1fc0ff", "#ff1ff0"];
+    return colors[Math.floor(Math.abs(((x*133 + (y+12)*41 + z)) % colors.length))];
+}
+
+const cooParseForGrid = (coo, snap) => {
+    return new Vector3(Math.round(coo[0]/snap.x),Math.round(coo[1]/snap.y),Math.round(coo[2]/snap.z));
+}
+
 const tempBoxes = new Object3D();
 
-export const LineRenderer: React.FC<LineRendererSettings> = ({line, color, step, consts}) => {
-    const material = new MeshToonMaterial({ color: color });
-    const boxesGeometry = new BoxGeometry(consts.scale, consts.scale, consts.scale);
+export const LineRenderer: React.FC<LineRendererSettings> = ({line, colors, geometry, step, snap}) => {
+    const material = new MeshLambertMaterial();
+
+    const [pos, setPos] = useState<Array<[number,number,number]>>([]);
+    const [color, setColor] = useState<Array<string>>([]);
+
+    useEffect(() => {
+        const p = [];
+        const c = [];
+        for (let i = 0; i < line.length; i++) {
+            const coo = snapCoordinates(line[i], step, snap);
+            const gridCoo = cooParseForGrid(coo, snap);
+            if(Grid.atBox(gridCoo)) {continue;}
+            Grid.setBox(gridCoo);
+
+            p.push(coo);
+            // @ts-ignore
+            c.push(new Color(colors[i]));
+        }
+        setPos([...pos, ...p]);
+        setColor([...color, ...c]);
+    }, [line]);
 
     const ref = useRef();
 
     useFrame(( ) => {
-        for (let x = 0; x < line.length; x++) {
-            const pos = snapCoordinates(line[x], step, consts.snap);
-            tempBoxes.position.set(...pos)
+        for (let x = 0; x < pos.length; x++) {
+            // @ts-ignore
+            tempBoxes.position.set(...pos[x])
             tempBoxes.updateMatrix();
+            // @ts-ignore
+            ref.current.setColorAt(x, color[x]);
             // @ts-ignore
             ref.current.setMatrixAt(x, tempBoxes.matrix);
         }
@@ -45,5 +70,5 @@ export const LineRenderer: React.FC<LineRendererSettings> = ({line, color, step,
         ref.current.instanceMatrix.needsUpdate = true;
     });
 
-    return <instancedMesh ref={ref} args={[boxesGeometry, material, line.length]} />;
+    return <instancedMesh ref={ref} args={[geometry, material, pos.length]} />;
 }

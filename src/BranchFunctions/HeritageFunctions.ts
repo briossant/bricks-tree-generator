@@ -1,33 +1,66 @@
 import {BranchSettings} from "../Branch";
 import {Vector3} from "three";
-import {getRdmColor, getRdmFloat, getRdmVector} from "../utilities";
+import { getRdmVector} from "../utilities";
+import {parabolique} from "./CurveFunctions";
 
 export interface HeritageFunctions{
-    (settings: BranchSettings, line: Array<Vector3>): Array<BranchSettings>
+    (settings: BranchSettings, lastPoint: Vector3, lastDir:Vector3): Array<BranchSettings>
 }
 
-export const basicHeritage:HeritageFunctions = (params, line) => {
+export const basicHeritage:HeritageFunctions = (params, lastPoint, lastDir) => {
 
     const {length, depth, startingDirection} = params;
 
-    const endPoint = line[line.length-1];
-    const st_dir = endPoint.clone().sub(line[line.length-2]);
-
     return [{
         ...params,
-        color: getRdmColor(),
         depth: depth+1,
         length: length/1.2,
-        startingDirection: st_dir,
-        startingPoint: endPoint,
+        startingDirection: lastDir,
+        startingPoint: lastPoint,
         curvingDirection: getRdmVector(),
     },{
         ...params,
-        color: getRdmColor(),
         depth: depth+1,
         length: length/1.3,
-        startingDirection: st_dir.clone().applyAxisAngle(startingDirection, -Math.PI).normalize(),
-        startingPoint: endPoint,
+        startingDirection: lastDir.clone().applyAxisAngle(startingDirection, -Math.PI).normalize(),
+        startingPoint: lastPoint,
         curvingDirection: getRdmVector(),
     }];
 }
+
+
+export const pinHeritage:HeritageFunctions = (params, lastPoint, lastDir) => {
+
+    const {length, depth, functions} = params;
+
+    return [{
+        ...params,
+        depth: depth+1,
+        length: length/1.2,
+        startingDirection: lastDir,
+        startingPoint: lastPoint,
+    },{
+        ...params,
+        depth: depth+1,
+        length: length/1.6,
+        startingDirection: new Vector3(lastDir.z, 0, -lastDir.x).normalize(),
+        startingPoint: lastPoint,
+        curvingDirection: new Vector3(0,-1,0),
+        functions: {
+            ...functions,
+            curve: parabolique(Math.random() + 0.3)
+        }
+    },{
+        ...params,
+        depth: depth+1,
+        length: length/1.6,
+        startingDirection: new Vector3(-lastDir.z, 0, lastDir.x).normalize(),
+        startingPoint: lastPoint,
+        curvingDirection: new Vector3(0,-1,0),
+        functions: {
+            ...functions,
+            curve: parabolique(Math.random() + 0.3)
+        }
+    }];
+}
+
