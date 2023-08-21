@@ -34,7 +34,7 @@ export const Branch: React.FC<BranchSettings> = (params) => {
     const [subBranches, setSubBranches] = useState<Array<BranchSettings>>([]);
 
     useEffect(() => {
-        if (I <=0 ) {
+        if (I <= step/10 ) {
             if (length>step) setSubBranches(functions.heritage(params, lastPoint,
                 (functions.curve(I+step, length, curvingDirection).add(startingDirection).normalize())));
             return;

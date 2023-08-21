@@ -2,27 +2,40 @@ import {OrbitControls, useGLTF} from "@react-three/drei";
 import {BranchFunctions} from "./Branch";
 import {Vector3} from "three";
 import {parabolique} from "./BranchFunctions/CurveFunctions";
-import {basicHeritage, pinHeritage} from "./BranchFunctions/HeritageFunctions";
+import {basicHeritage, pinHeritage, upHeritage} from "./BranchFunctions/HeritageFunctions";
 import {useState} from "react";
-import {Grid} from "./grid";
 import {Tree, TreeSettings} from "./Tree";
 import {Perf} from "r3f-perf";
 import {useControls} from "leva";
-import {classicColors} from "./BranchFunctions/ColorationFunctions";
+import {classicColors, darkColors, savannaColors} from "./BranchFunctions/ColorationFunctions";
 
 
-const fcts: { [name: string]: BranchFunctions } = {
-    "basic": {
-        curve: parabolique(0.3),
-        heritage: basicHeritage,
-        coloration: classicColors
+const presets: { [name: string]: { lengthMul: number, fct: BranchFunctions }; } = {
+    "Quercus": {
+        lengthMul: 1,
+        fct: {
+            curve: parabolique(0.3),
+            heritage: basicHeritage,
+            coloration: classicColors
+        }
     },
-    "pin": {
-        curve: parabolique(2),
-        heritage: pinHeritage,
-        coloration: classicColors
+    "Abies": {
+        lengthMul: 0.9,
+        fct: {
+            curve: parabolique(2),
+            heritage: pinHeritage,
+            coloration: darkColors
+        }
+    },
+    "Vachellia tortilis": {
+        lengthMul: 1.6,
+        fct: {
+            curve: parabolique(0.3),
+            heritage: upHeritage,
+            coloration: savannaColors
+        }
     }
-}
+};
 
 
 
@@ -39,26 +52,26 @@ export default function () {
         setHasBeenScaled(true);
     }
 
-    const {length, preset} = useControls( {
-        length: {
-            value: 4,
+    const {treeSize, preset} = useControls( {
+        treeSize: {
+            value: 7,
             min: 3,
             max: 20,
             step: 0.01
         },
         preset: {
-            options: Object.keys(fcts)
+            options: Object.keys(presets)
         }
     })
 
     const getSettings: (startPos: Vector3) => TreeSettings = (startPos) => {
         return {
-            length: length,
+            length: treeSize * presets[preset].lengthMul,
             step: scale,
             snap: new Vector3(0.79, 0.98, 0.79),
             geometry: nodes.Lego.geometry,
             startingPoint: startPos,
-            functions:fcts[preset],
+            functions: presets[preset].fct,
         }
     }
     const [trees, setTrees] = useState<Array<TreeSettings>>([getSettings(new Vector3(0,0,0))])
