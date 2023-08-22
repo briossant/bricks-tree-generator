@@ -3,7 +3,10 @@ import {parabolique} from "../branchFunctions/CurveFunctions";
 import {basicHeritage, pinHeritage, upHeritage} from "../branchFunctions/HeritageFunctions";
 import {classicColors, darkColors, savannaColors} from "../branchFunctions/ColorationFunctions";
 
-export const presets: { [name: string]: { lengthMul: number, fct: BranchFunctions }; } = {
+export interface Preset {
+    lengthMul: number, fct: BranchFunctions
+}
+export const presets: { [name: string]: Preset} = {
     "Quercus": {
         lengthMul: 1,
         fct: {

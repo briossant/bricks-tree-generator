@@ -2,16 +2,19 @@ import {Vector3} from "three";
 
 export class Grid {
     private static size: Vector3 = new Vector3(0,0,0);
+    private static offset: Vector3 = new Vector3(0,0,0);
     private static grid: Array<boolean> = []
 
 
     static newGrid: (size: Vector3) => void = (size) => {
         Grid.size = size;
         Grid.grid = Array(size.x*size.y*size.z);
+        Grid.offset = new Vector3(Math.floor(size.x/2), Math.floor(size.y/2), Math.floor(size.z/2));
     }
 
 
     private static vectorToNumber: (vec: Vector3) => number = (vec) => {
+        vec = vec.clone().add(Grid.offset);
         return (vec.x*Grid.size.y+vec.y)*Grid.size.z+vec.z;
     }
 

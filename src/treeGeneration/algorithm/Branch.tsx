@@ -13,7 +13,6 @@ export interface BranchFunctions {
 
 export interface BranchSettings {
     length: number;
-    step: number;
     startingDirection: Vector3;
     curvingDirection: Vector3;
     startingPoint: Vector3;
@@ -25,9 +24,10 @@ export interface BranchSettings {
     functions: BranchFunctions;
 }
 
+const step = 1;
 
 export const Branch: React.FC<BranchSettings> = (params) => {
-    const {length, step, startingDirection, setColors, curvingDirection, startingPoint, setLine, functions} = params;
+    const {length, startingDirection, setColors, curvingDirection, startingPoint, setLine, functions} = params;
     const [I, setI] = useState<number>(length);
     const [lastPoint, setLastPoint] = useState<Vector3>(startingPoint);
 

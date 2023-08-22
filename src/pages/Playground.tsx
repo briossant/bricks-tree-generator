@@ -12,13 +12,7 @@ import {BrickPlane} from "../brickRendering/BrickPlane";
 
 export default function () {
     const scale = 1;
-    // @ts-ignore
     const { nodes } = useGLTF("./lego.glb");
-    const [hasBeenScaled, setHasBeenScaled] = useState<boolean>(false);
-    if (!hasBeenScaled){
-        nodes.Lego.geometry.scale(scale,scale,scale);
-        setHasBeenScaled(true);
-    }
 
     const {treeSize, preset} = useControls( {
         treeSize: {
@@ -35,7 +29,7 @@ export default function () {
     const getSettings: (startPos: Vector3) => TreeSettings = (startPos) => {
         return {
             length: treeSize * presets[preset].lengthMul,
-            step: scale,
+            scale: scale,
             snap: new Vector3(0.79, 0.98, 0.79),
             geometry: nodes.Lego.geometry,
             startingPoint: startPos,
@@ -54,8 +48,6 @@ export default function () {
 
     return <>
 
-        <Perf position="top-left"/>
-
         <OrbitControls/>
 
         {trees.map((set,i) => <Tree key={i} {...set}/>)}
@@ -66,8 +58,6 @@ export default function () {
 
         <BrickPlane geometry={nodes.Lego.geometry} scale={1.58} size={new Vector2(130,130)} color={"#cbac70"}/>
 
-        <directionalLight color={"#ffffff"} castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04}/>
-        <ambientLight intensity={0.5}/>
 
     </>
 }

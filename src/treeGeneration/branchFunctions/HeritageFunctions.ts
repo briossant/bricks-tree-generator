@@ -31,9 +31,9 @@ export const basicHeritage:HeritageFunctions = (params, lastPoint, lastDir) => {
 
 export const upHeritage:HeritageFunctions = (params, lastPoint, lastDir) => {
 
-    const {length, depth, step} = params;
+    const {length, depth} = params;
 
-    if (length < 5*step && depth > 5) return [{
+    if (length < 5 && depth > 5) return [{
         ...params,
         depth: depth+1,
         length: length/(1.3+Math.random()/3),
@@ -43,7 +43,7 @@ export const upHeritage:HeritageFunctions = (params, lastPoint, lastDir) => {
     },{
         ...params,
         depth: depth+1,
-        length: step/2,
+        length: 0.5,
         startingDirection: new Vector3(getRdmFloat(-1,1), Math.random(), getRdmFloat(-1,1)),
         startingPoint: lastPoint,
         curvingDirection: new Vector3(0,1,0),
@@ -56,21 +56,21 @@ export const upHeritage:HeritageFunctions = (params, lastPoint, lastDir) => {
         ...params,
         depth: depth+1,
         length: length/(1.3+Math.random()/3),
-        startingDirection:  new Vector3(rot.x, step/length, rot.y),
+        startingDirection:  new Vector3(rot.x, 1/length, rot.y),
         startingPoint: lastPoint,
         curvingDirection: new Vector3(0,1,0),
     },{
         ...params,
         depth: depth+1,
         length: length/(1.3+Math.random()/3),
-        startingDirection:  new Vector3(rot2.x, step/length, rot2.y),
+        startingDirection:  new Vector3(rot2.x, 1/length, rot2.y),
         startingPoint: lastPoint,
         curvingDirection: new Vector3(0,1,0),
     },{
         ...params,
         depth: depth+1,
         length: length/(1.2+Math.random()/3),
-        startingDirection: new Vector3(-lastDir.x, step/length, -lastDir.z),
+        startingDirection: new Vector3(-lastDir.x, 1/length, -lastDir.z),
         startingPoint: lastPoint,
         curvingDirection: new Vector3(0,1,0),
     }];
