@@ -3,7 +3,7 @@ import './style.css'
 import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
 import Experience from "./Experience";
-import {Grid} from "./treeGeneration/algorithm/grid";
+import {Grid} from "./brickRendering/grid";
 import {Vector3} from "three";
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))

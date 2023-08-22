@@ -13,6 +13,9 @@ export const Menu: React.FC<Menu> = ({setPage}) => {
 
     return <>
         <Html>
+            <button className="rounded-full bg-" onClick={click("trees")}>
+                Trees
+            </button>
             <button className="rounded-full bg-" onClick={click("playground")}>
                 Playground
             </button>

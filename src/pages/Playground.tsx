@@ -1,10 +1,11 @@
 import {OrbitControls, useGLTF} from "@react-three/drei";
-import {Vector3} from "three";
+import {Vector2, Vector3} from "three";
 import {useState} from "react";
 import {Perf} from "r3f-perf";
 import {useControls} from "leva";
-import {presets} from "../presets/presets";
-import {Tree, TreeSettings} from "../algorithm/Tree";
+import {presets} from "../treeGeneration/presets/presets";
+import {Tree, TreeSettings} from "../treeGeneration/algorithm/Tree";
+import {BrickPlane} from "../brickRendering/BrickPlane";
 
 // todo :
 // todo : more randomness ; presets
@@ -39,6 +40,7 @@ export default function () {
             geometry: nodes.Lego.geometry,
             startingPoint: startPos,
             functions: presets[preset].fct,
+            cooConstraints: (vec) => vec.y<=0
         }
     }
     const [trees, setTrees] = useState<Array<TreeSettings>>([getSettings(new Vector3(0,0,0))])
@@ -60,8 +62,9 @@ export default function () {
 
         <mesh scale={[200,200,1]} rotation={[-Math.PI/2,0,0]} onClick={eventHandler} >
             <planeGeometry/>
-            <meshToonMaterial/>
         </mesh>
+
+        <BrickPlane geometry={nodes.Lego.geometry} scale={1.58} size={new Vector2(130,130)} color={"#cbac70"}/>
 
         <directionalLight color={"#ffffff"} castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04}/>
         <ambientLight intensity={0.5}/>

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Vector3} from "three";
 import {Branch, BranchFunctions} from "./Branch";
-import {LineRenderer} from "../rendering/LineRenderer";
+import {cooConstraints, LineRenderer} from "../../brickRendering/LineRenderer";
 import {getRdmVector} from "../../utilities";
 
 export interface TreeSettings {
@@ -11,10 +11,11 @@ export interface TreeSettings {
     startingPoint: Vector3;
     snap: Vector3;
 
+    cooConstraints: cooConstraints;
     functions: BranchFunctions;
 }
 
-export const Tree: React.FC<TreeSettings> = ({length, step, startingPoint,functions,geometry,snap}) => {
+export const Tree: React.FC<TreeSettings> = ({length, step, startingPoint,functions, cooConstraints,geometry,snap}) => {
     const [line, setLine] = useState<Array<Vector3>>([]);
     const [colors, setColors] = useState<Array<string>>([]);
 
@@ -32,6 +33,6 @@ export const Tree: React.FC<TreeSettings> = ({length, step, startingPoint,functi
             functions={functions}
             setColors={setColors}
         />
-        <LineRenderer line={line} colors={colors} step={step} snap={snap} geometry={geometry} />
+        <LineRenderer line={line} colors={colors} step={step} snap={snap} geometry={geometry}  cooConstraints={cooConstraints}/>
     </>
 }

@@ -1,7 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Vector3, Object3D, Color, MeshLambertMaterial} from "three";
 import {useFrame} from "@react-three/fiber";
-import {Grid} from "../algorithm/grid";
+import {Grid} from "./grid";
+
+export interface cooConstraints{
+    (vec: Vector3): boolean
+}
 
 interface LineRendererSettings {
     line: Array<Vector3>;
@@ -9,6 +13,7 @@ interface LineRendererSettings {
     step: number;
     geometry: any;
     snap: Vector3;
+    cooConstraints: cooConstraints
 }
 
 const snapNumber: (x:number, snap:number) => number = (x, snap) => {
@@ -31,7 +36,7 @@ const cooParseForGrid = (coo, snap) => {
 
 const tempBoxes = new Object3D();
 
-export const LineRenderer: React.FC<LineRendererSettings> = ({line, colors, geometry, step, snap}) => {
+export const LineRenderer: React.FC<LineRendererSettings> = ({line, colors, geometry, step, snap, cooConstraints}) => {
     const material = new MeshLambertMaterial();
 
     const [pos, setPos] = useState<Array<[number,number,number]>>([]);
@@ -43,7 +48,7 @@ export const LineRenderer: React.FC<LineRendererSettings> = ({line, colors, geom
         for (let i = 0; i < line.length; i++) {
             const coo = snapCoordinates(line[i], step, snap);
             const gridCoo = cooParseForGrid(coo, snap);
-            if(Grid.atBox(gridCoo)) {continue;}
+            if(cooConstraints(gridCoo) || Grid.atBox(gridCoo)) {continue;}
             Grid.setBox(gridCoo);
 
             p.push(coo);
