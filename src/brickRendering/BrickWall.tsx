@@ -1,19 +1,21 @@
-import {MeshLambertMaterial, Object3D, Vector2} from "three";
+import {Color, MeshLambertMaterial, Object3D, Vector2} from "three";
 import React, {useRef} from "react";
 import {useGLTF} from "@react-three/drei";
 import {useFrame} from "@react-three/fiber";
 import Brick2x2 from "../const/Brick2x2";
+import {getRdmColor} from "../utilities";
 
 interface BrickWall {
     size: Vector2;
-    color: string;
+    randomColor?: boolean
+    color?: string;
     align?: "center" | "center-left" | "bottom-left";
 }
 
 const tempBoxes = new Object3D();
 
-export const BrickWall: React.FC<BrickWall> = ({size,color, align= "center"}) => {
-    const material = new MeshLambertMaterial({color:color});
+export const BrickWall: React.FC<BrickWall> = ({size, randomColor = true,color , align= "center"}) => {
+    const material = randomColor? new MeshLambertMaterial() : new MeshLambertMaterial({color:color});
     const ref = useRef();
     const { nodes } = useGLTF("./lego.glb");
 
@@ -29,7 +31,12 @@ export const BrickWall: React.FC<BrickWall> = ({size,color, align= "center"}) =>
             offset = new Vector2(0, 0);
             break;
     }
-
+    const colors = [];
+    if (randomColor){
+        for (let i = 0; i <size.x*size.y; i++) {
+            colors.push(new Color(getRdmColor()));
+        }
+    }
 
     useFrame(( ) => {
         for (let i = 0; i < size.x*size.y; i++) {
@@ -40,6 +47,7 @@ export const BrickWall: React.FC<BrickWall> = ({size,color, align= "center"}) =>
             tempBoxes.updateMatrix();
             // @ts-ignore
             ref.current.setMatrixAt(i, tempBoxes.matrix);
+            if (randomColor) ref.current.setColorAt(i, colors[i]);
         }
         // @ts-ignore
         ref.current.instanceMatrix.needsUpdate = true;

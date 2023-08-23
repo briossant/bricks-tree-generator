@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {BrickTree} from "../brickRendering/BrickTree";
 import {Vector3} from "three"
 import {getRdmPresetName, presets} from "../treeGeneration/presets/presets";
@@ -6,7 +6,7 @@ import {TextButton} from "../meshes/TextButton";
 import {Kebab} from "../animation/Kebab";
 import {useFrame, useThree} from "@react-three/fiber";
 import {Grid} from "../brickRendering/grid";
-import {FlyControls} from "@react-three/drei";
+import {Float, FlyControls} from "@react-three/drei";
 import LimitedFlyControls from "../animation/LimitedFlyControls";
 
 
@@ -34,16 +34,19 @@ export const Menu: React.FC<Menu> = ({setPage}) => {
     });
 
     return <>
-        <LimitedFlyControls/>
+        <LimitedFlyControls initPos={new Vector3(-80,20,0)}/>
 
         <Kebab speed={10}>
-            <BrickTree key={reloadTree} length={9} startingPoint={new Vector3(0,-20,0)} preset={presets[getRdmPresetName()]}/>
+            <Float speed={5} rotationIntensity={0} floatingRange={[1, 5]}>
+                <BrickTree key={reloadTree} length={9} startingPoint={new Vector3(0,-20,0)} preset={presets[getRdmPresetName()]}/>
+            </Float>
         </Kebab>
 
 
         <group position={[100,0,-120]} scale={5} rotation-y={-Math.PI/3}>
             <TextButton name={"The Trees"} action={click("tree")} position={[0,0,0]}/>
-            <TextButton name={"Playground"} action={click("playground")} position={[0,-4,0]}/>
+            <TextButton name={"Playground"} action={click("playground")} position={[0,-5,0]}/>
+            <TextButton name={"About"} action={click("about")} position={[0,-10,0]}/>
         </group>
         <ambientLight intensity={0.5}/>
         <directionalLight color={"#ffffff"} castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04}/>
