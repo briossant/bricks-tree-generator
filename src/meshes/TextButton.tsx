@@ -12,7 +12,6 @@ interface TextButton {
 export const TextButton: React.FC<TextButton> = ({name, action, ...props}) => {
 
     const color = getRdmColor();
-    const textColor = getRdmColor([color]);
 
     const click = (event) => {
         action(event);
@@ -20,7 +19,7 @@ export const TextButton: React.FC<TextButton> = ({name, action, ...props}) => {
 
     return <group {...props} onClick={click}>
         <Text3D font={"./Alice_Regular.json"} position={[0.1,-0.2,1]}>{name}
-            <meshLambertMaterial color={textColor}/>
+            <meshLambertMaterial color={"black"}/>
         </Text3D>
         <BrickWall size={new Vector2(Math.floor(name.length/2+1), 3)} color={color} align={"center-left"}/>
     </group>
