@@ -1,6 +1,6 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {BrickTree} from "../brickRendering/BrickTree";
-import {Vector3} from "three"
+import {Vector3, Vector2} from "three"
 import {getRdmPresetName, presets} from "../treeGeneration/presets/presets";
 import {TextButton} from "../meshes/TextButton";
 import {Kebab} from "../animation/Kebab";
@@ -8,6 +8,7 @@ import {useFrame, useThree} from "@react-three/fiber";
 import {Grid} from "../brickRendering/grid";
 import {Float, FlyControls} from "@react-three/drei";
 import LimitedFlyControls from "../animation/LimitedFlyControls";
+import {BrickPlane} from "../brickRendering/BrickPlane";
 
 
 interface Menu {
@@ -37,9 +38,8 @@ export const Menu: React.FC<Menu> = ({setPage}) => {
         <LimitedFlyControls initPos={new Vector3(-80,20,0)}/>
 
         <Kebab speed={10}>
-            <Float speed={5} rotationIntensity={0} floatingRange={[1, 5]}>
-                <BrickTree key={reloadTree} length={9} startingPoint={new Vector3(0,-20,0)} preset={presets[getRdmPresetName()]}/>
-            </Float>
+            <BrickPlane position-y={-19} size={new Vector2(5,5)} color={"#b29e5d"}/>
+            <BrickTree key={reloadTree} length={9} startingPoint={new Vector3(0,-20,0)} preset={presets[getRdmPresetName()]}/>
         </Kebab>
 
 

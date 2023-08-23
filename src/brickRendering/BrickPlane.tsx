@@ -11,7 +11,7 @@ interface BrickPlane {
 
 const tempBoxes = new Object3D();
 
-export const BrickPlane: React.FC<BrickPlane> = ({ size,color}) => {
+export const BrickPlane: React.FC<BrickPlane> = ({ size,color, ...props}) => {
     const material = new MeshLambertMaterial({color:color});
     const ref = useRef();
     const { nodes } = useGLTF("./lego.glb");
@@ -19,7 +19,7 @@ export const BrickPlane: React.FC<BrickPlane> = ({ size,color}) => {
     useFrame(( ) => {
         for (let x = 0; x < size.x*size.y; x++) {
             // @ts-ignore
-            tempBoxes.position.set((Math.floor(x/size.x)-size.x/2)*Brick2x2.x, 0, ((x%size.x)-size.y/2)*Brick2x2.z);
+            tempBoxes.position.set((Math.floor(x/size.x)-size.x/2+0.5)*Brick2x2.x, 0, ((x%size.x)-size.y/2+0.5)*Brick2x2.z);
             tempBoxes.updateMatrix();
             // @ts-ignore
             ref.current.setMatrixAt(x, tempBoxes.matrix);
@@ -28,5 +28,5 @@ export const BrickPlane: React.FC<BrickPlane> = ({ size,color}) => {
         ref.current.instanceMatrix.needsUpdate = true;
     });
 
-    return <instancedMesh ref={ref} args={[nodes.Lego.geometry, material, size.x*size.y]} />;
+    return <group {...props}><instancedMesh ref={ref} args={[nodes.Lego.geometry, material, size.x*size.y]} /></group>;
 }
