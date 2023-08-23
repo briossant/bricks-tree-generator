@@ -4,6 +4,7 @@ import {cooConstraints} from "./LineRenderer";
 import {Tree} from "../treeGeneration/algorithm/Tree";
 import {Preset} from "../treeGeneration/presets/presets";
 import {useGLTF} from "@react-three/drei";
+import Brick2x2 from "../const/Brick2x2";
 
 export interface LegoTreeSettings {
     length: number;
@@ -13,16 +14,16 @@ export interface LegoTreeSettings {
     cooConstraints?: cooConstraints;
 }
 
-export const LegoTree: React.FC<LegoTreeSettings> = ({length, startingPoint, preset, cooConstraints = () => false}) => {
+export const BrickTree: React.FC<LegoTreeSettings> = ({length, startingPoint, preset, cooConstraints = () => false, ...props}) => {
     const { nodes } = useGLTF("./lego.glb");
 
-    return <Tree
+    return <group {...props}><Tree
         length={length *  preset.lengthMul}
         geometry={nodes.Lego.geometry}
         startingPoint={startingPoint}
-        snap={new Vector3(0.79, 0.98, 0.79)}
+        snap={new Vector3(Brick2x2.x/2, Brick2x2.y, Brick2x2.z/2)}
         scale={1}
         cooConstraints={cooConstraints}
         functions={preset.fct}
-    />
+    /></group>
 }

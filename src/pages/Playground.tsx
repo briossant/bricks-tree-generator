@@ -1,19 +1,15 @@
 import {OrbitControls, useGLTF} from "@react-three/drei";
 import {Vector2, Vector3} from "three";
 import {useState} from "react";
-import {Perf} from "r3f-perf";
 import {useControls} from "leva";
 import {presets} from "../treeGeneration/presets/presets";
-import {Tree, TreeSettings} from "../treeGeneration/algorithm/Tree";
 import {BrickPlane} from "../brickRendering/BrickPlane";
+import {BrickTree, LegoTreeSettings} from "../brickRendering/BrickTree";
 
 // todo :
 // todo : more randomness ; presets
 
 export default function () {
-    const scale = 1;
-    const { nodes } = useGLTF("./lego.glb");
-
     const {treeSize, preset} = useControls( {
         treeSize: {
             value: 7,
@@ -26,18 +22,15 @@ export default function () {
         }
     })
 
-    const getSettings: (startPos: Vector3) => TreeSettings = (startPos) => {
+    const getSettings: (startPos: Vector3) => LegoTreeSettings = (startPos) => {
         return {
-            length: treeSize * presets[preset].lengthMul,
-            scale: scale,
-            snap: new Vector3(0.79, 0.98, 0.79),
-            geometry: nodes.Lego.geometry,
+            length: treeSize,
             startingPoint: startPos,
-            functions: presets[preset].fct,
+            preset: presets[preset],
             cooConstraints: (vec) => vec.y<=0
         }
     }
-    const [trees, setTrees] = useState<Array<TreeSettings>>([getSettings(new Vector3(0,0,0))])
+    const [trees, setTrees] = useState<Array<LegoTreeSettings>>([getSettings(new Vector3(0,0,0))])
 
 
 
@@ -48,15 +41,15 @@ export default function () {
 
     return <>
 
-        <OrbitControls/>
+        <OrbitControls  />
 
-        {trees.map((set,i) => <Tree key={i} {...set}/>)}
+        {trees.map((set,i) => <BrickTree key={i} {...set}/>)}
 
         <mesh scale={[200,200,1]} rotation={[-Math.PI/2,0,0]} onClick={eventHandler} >
             <planeGeometry/>
         </mesh>
 
-        <BrickPlane geometry={nodes.Lego.geometry} scale={1.58} size={new Vector2(130,130)} color={"#cbac70"}/>
+        <BrickPlane size={new Vector2(130,130)} color={"#cbac70"}/>
 
 
     </>

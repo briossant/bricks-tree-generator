@@ -4,6 +4,7 @@ import {Menu} from "./pages/Menu";
 import Trees from "./pages/Trees";
 import {Grid} from "./brickRendering/grid";
 import {Vector3} from "three";
+import MenuButton from "./meshes/MenuButton";
 
 export default function () {
     const [page, setPage] = useState<string>("menu")
@@ -11,6 +12,8 @@ export default function () {
 
 
     return <>
+        {page != "menu" && <MenuButton setPage={setPage}/>}
+
         {page == "menu" && <Menu setPage={setPage}/>}
 
         {page == "playground" && <Playground/>}
