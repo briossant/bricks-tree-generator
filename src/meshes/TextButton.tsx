@@ -2,7 +2,6 @@ import React, {useRef} from "react";
 import {Text3D} from "@react-three/drei";
 import {BrickWall} from "../brickRendering/BrickWall";
 import {Vector2} from "three"
-import {getRdmColor} from "../utilities";
 import gsap from 'gsap'
 
 interface TextButton {
