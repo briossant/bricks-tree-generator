@@ -10,6 +10,7 @@ import {Center, Float, FlyControls, Hud} from "@react-three/drei";
 import LimitedFlyControls from "../animation/LimitedFlyControls";
 import {BrickPlane} from "../brickRendering/BrickPlane";
 import Lighting from "../meshes/Lighting";
+import {Title} from "../meshes/Title";
 
 
 interface Menu {
@@ -47,7 +48,9 @@ export const Menu: React.FC<Menu> = ({setPage}) => {
         </Center>
 
         <Hud>
-            <Center right bottom position={[100,0,-width/1.2]} scale={5} rotation-y={-Math.PI/(1+width/50)}>
+            <Center right bottom position={[100,20,-width/1.2]} scale={5} rotation-y={-Math.PI/(1+width/50)}>
+                <Title name={"The Brick-Trees"} position={[0,8,0]} scale={2}/>
+                <Title name={"Journey"} position={[0,5,0]} scale={2}/>
                 <TextButton name={"The Trees"} action={click("tree")} position={[0,0,0]}/>
                 <TextButton name={"Playground"} action={click("playground")} position={[0,-5,0]}/>
                 <TextButton name={"About"} action={click("about")} position={[0,-10,0]}/>

@@ -14,7 +14,7 @@ export default function () {
         treeSize: {
             value: 7,
             min: 3,
-            max: 20,
+            max: 18,
             step: 0.01
         },
         preset: {
