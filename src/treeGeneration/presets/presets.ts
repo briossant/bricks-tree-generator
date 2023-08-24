@@ -1,7 +1,7 @@
 import {BranchFunctions} from "../algorithm/Branch";
 import {parabolique} from "../branchFunctions/CurveFunctions";
-import {basicHeritage, pinHeritage, upHeritage} from "../branchFunctions/HeritageFunctions";
-import {classicColors, darkColors, savannaColors} from "../branchFunctions/ColorationFunctions";
+import {basicHeritage, pinHeritage, saulHeritage, upHeritage} from "../branchFunctions/HeritageFunctions";
+import {classicColors, darkColors, saulColors, savannaColors} from "../branchFunctions/ColorationFunctions";
 import {getRdmInt} from "../../utilities";
 
 export interface Preset {
@@ -30,6 +30,14 @@ export const presets: { [name: string]: Preset} = {
             curve: parabolique(0.3),
             heritage: upHeritage,
             coloration: savannaColors
+        }
+    },
+    "Salix babylonica": {
+        lengthMul: 1,
+        fct: {
+            curve: parabolique(0.3),
+            heritage: saulHeritage,
+            coloration: saulColors
         }
     }
 };

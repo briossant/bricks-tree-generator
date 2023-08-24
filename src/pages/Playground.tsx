@@ -6,8 +6,6 @@ import {presets} from "../treeGeneration/presets/presets";
 import {BrickPlane} from "../brickRendering/BrickPlane";
 import {BrickTree, LegoTreeSettings} from "../brickRendering/BrickTree";
 
-// todo :
-// todo : more randomness ; presets
 
 export default function () {
     const {treeSize, preset} = useControls( {

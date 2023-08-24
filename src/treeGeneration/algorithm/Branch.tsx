@@ -41,10 +41,11 @@ export const Branch: React.FC<BranchSettings> = (params) => {
         }
         setI(I-step);
 
-        const p = (functions.curve(I, length, curvingDirection).add(startingDirection).normalize()).add(lastPoint);
+        const dir = (functions.curve(I, length, curvingDirection).add(startingDirection).normalize());
+        const p = dir.clone().add(lastPoint)
         setLastPoint(p);
         setLine((line) => [...line, p]);
-        setColors((colors) => [...colors, functions.coloration(length, step)]);
+        setColors((colors) => [...colors, functions.coloration({length, step, dir})]);
     }, [I]);
 
     return <>

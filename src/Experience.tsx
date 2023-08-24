@@ -7,6 +7,11 @@ import {Vector3} from "three";
 import MenuButton from "./meshes/MenuButton";
 import Lighting from "./meshes/Lighting";
 
+// todo : changing page animation -> everything goes up/down to leave/enter the screen
+// todo : saul pleureur ; welcoming screen in playground to explain its working
+// todo : about page ; trees page
+
+
 export default function () {
     const [page, setPage] = useState<string>("menu")
     Grid.newGrid(new Vector3(2000,2000,300));

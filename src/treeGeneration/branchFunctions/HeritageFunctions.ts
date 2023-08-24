@@ -113,3 +113,47 @@ export const pinHeritage:HeritageFunctions = (params, lastPoint, lastDir) => {
     }];
 }
 
+
+
+
+
+export const saulHeritage:HeritageFunctions = (settings, lastPoint, lastDir) => {
+    let {length, depth, startingDirection, startLen = length, functions} = settings;
+
+    if (length < 2 && startLen > 0) {
+        length = startLen;
+        startLen = -42;
+    }
+
+    if (startLen < -1) return [{
+        ...settings,
+        startLen: startLen,
+        depth: depth+1,
+        length: length/1.4,
+        startingDirection: new Vector3(lastDir.x, lastDir.y-1, lastDir.z).normalize(),
+        startingPoint: lastPoint,
+        curvingDirection: getRdmVector(),
+        functions: {
+            ...functions,
+            curve: parabolique(2.3)
+        }
+    }]
+
+    return [{
+        ...settings,
+        startLen: startLen,
+        depth: depth+1,
+        length: length/1.2,
+        startingDirection: lastDir,
+        startingPoint: lastPoint,
+        curvingDirection: getRdmVector(),
+    },{
+        ...settings,
+        startLen: startLen,
+        depth: depth+1,
+        length: length/1.3,
+        startingDirection: lastDir.clone().applyAxisAngle(startingDirection, -Math.PI).normalize(),
+        startingPoint: lastPoint,
+        curvingDirection: getRdmVector(),
+    }];
+}
