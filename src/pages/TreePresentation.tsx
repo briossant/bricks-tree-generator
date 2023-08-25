@@ -32,10 +32,10 @@ export const TreePresentation: React.FC<TreePresentation> = ({preset}) => {
             <Lighting pos={[-1,2,3]} />
         </Hud>
         <Hud renderPriority={2}>
-            <Center left position={[0, 0, width / 2.4]} scale={2.5} rotation-y={-0.3}>
+            <Center left position={[50, -15, width / 1.5]} scale={5} rotation-y={-0.3}>
                 <ArrowButton dir={"right"} action={(e) => {}}/>
             </Center>
-            <Center right position={[0, 0, -width / 2.4]} scale={2.5} rotation-y={0.3}>
+            <Center right position={[50, -15, -width / 1.5]} scale={5} rotation-y={0.3}>
                 <ArrowButton dir={"left"} action={(e) => {}}/>
             </Center>
             <Lighting/>

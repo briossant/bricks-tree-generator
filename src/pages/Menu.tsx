@@ -50,7 +50,7 @@ export const Menu: React.FC<Menu> = ({setPage}) => {
 
         <Hud>
             <Center right bottom position={[100,20,-width/1.2]} scale={5} rotation-y={-Math.PI/(1+width/50)}>
-                <Title name={"The Brick-Trees"} position={[0,8,0]} scale={2}/>
+                <Title name={"The Brick Tree"} position={[0,8,0]} scale={2}/>
                 <Title name={"Journey"} position={[0,5,0]} scale={2}/>
                 <TextButton name={"The Trees"} action={click("trees")} position={[0,0,0]}/>
                 <TextButton name={"Playground"} action={click("playground")} position={[0,-5,0]}/>

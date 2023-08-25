@@ -11,17 +11,20 @@ export interface LegoTreeSettings {
     startingPoint: Vector3;
     preset: Preset;
 
+    dontAlignBricks?: boolean;
+
     cooConstraints?: cooConstraints;
 }
 
-export const BrickTree: React.FC<LegoTreeSettings> = ({length, startingPoint, preset, cooConstraints = () => false, ...props}) => {
+export const BrickTree: React.FC<LegoTreeSettings> = ({length, startingPoint, dontAlignBricks = false, preset, cooConstraints = () => false, ...props}) => {
     const { nodes } = useGLTF("./lego.glb");
 
     return <group {...props}><Tree
         length={length *  preset.lengthMul}
         geometry={nodes.Lego.geometry}
         startingPoint={startingPoint}
-        snap={new Vector3(Brick2x2.x/2, Brick2x2.y, Brick2x2.z/2)}
+        snap={dontAlignBricks ? new Vector3(0.001,0.001,0.001) :
+            new Vector3(Brick2x2.x/2, Brick2x2.y, Brick2x2.z/2)}
         scale={1}
         cooConstraints={cooConstraints}
         functions={preset.fct}

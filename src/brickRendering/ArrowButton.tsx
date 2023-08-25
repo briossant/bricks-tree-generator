@@ -19,7 +19,7 @@ export const ArrowButton: React.FC<ArrowButton> = ({dir, action, ...props}) => {
     const click = (event) => {
         const tl = gsap.timeline();
         tl.to(ref.current.position, {
-            x: 2,
+            x: 1,
             duration: 0.3,
         });
         tl.to(ref.current.position, {
@@ -31,7 +31,7 @@ export const ArrowButton: React.FC<ArrowButton> = ({dir, action, ...props}) => {
 
     const hover = (enter) => () => {
         gsap.to(ref.current.position, {
-            x: enter ? -1.5 : 0,
+            x: enter ? -1.2 : 0,
             duration: 0.2,
         });
     }

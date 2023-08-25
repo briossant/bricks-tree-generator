@@ -8,7 +8,7 @@ import {BrickTree, LegoTreeSettings} from "../brickRendering/BrickTree";
 
 
 export default function () {
-    const {treeSize, preset} = useControls( {
+    const {treeSize, preset, alignBricks} = useControls( {
         treeSize: {
             label: "Tree size",
             value: 7,
@@ -19,6 +19,10 @@ export default function () {
         preset: {
             label: "Tree type",
             options: Object.keys(presets)
+        },
+        alignBricks: {
+            label: "Align Bricks",
+            value: true
         }
     })
 
@@ -27,6 +31,7 @@ export default function () {
             length: treeSize,
             startingPoint: startPos,
             preset: presets[preset],
+            dontAlignBricks: !alignBricks,
             cooConstraints: (vec) => vec.y<=0
         }
     }
