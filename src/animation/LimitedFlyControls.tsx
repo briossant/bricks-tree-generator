@@ -12,10 +12,10 @@ interface LimitedFlyControls {
 export default function ({initPos = defaultCamPos, amplitude = new Vector2(6,8), speed= 0.02}: LimitedFlyControls) {
     const {camera} = useThree();
 
-    useMemo(() => {
+    /*setMemo(() => {
         camera.position.set(...initPos);
         camera.lookAt(0,0,0);
-    },[]);
+    },[]);*/
 
     useFrame((state,delta) => {
         camera.position.y += (initPos[1] + state.mouse.y * amplitude.y - camera.position.y) * speed;

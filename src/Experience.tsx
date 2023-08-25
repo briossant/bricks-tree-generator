@@ -19,28 +19,32 @@ export default function () {
     Grid.newGrid(new Vector3(2000,2000,300));
 
     const {camera} = useThree();
-    const animRef = useRef();
 
 
     const onSetPage = (newPage: string) => {
-        camera.position.set(...defaultCamPos);
-        camera.lookAt(0,0,0);
 
         const animStrength = 200;
         const animDuration = 4;
 
         const tl = gsap.timeline();
         tl.to(camera.position, {
+            x: defaultCamPos[0],
+            y: defaultCamPos[1],
+            z:defaultCamPos[2],
+            duration: 0.8,
+            onUpdate: () => {camera.lookAt(0,0,0);}
+        })
+        tl.to(camera.position, {
             y: animStrength+defaultCamPos[1],
             duration: animDuration/2,
-            onComplete: () => {camera.position.y = -animStrength-defaultCamPos[1];setPage(newPage)}
+            onComplete: () => {setPage(newPage);camera.position.y = -animStrength-defaultCamPos[1]}
         });
         tl.to(camera.position, {
             y: defaultCamPos[1],
             duration: animDuration/2,
         });
     }
-1
+
 
     return <>
             {page != "menu" && <MenuButton setPage={onSetPage} renderPriority={pagesHuds[page]+1}/>}
