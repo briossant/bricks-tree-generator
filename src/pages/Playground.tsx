@@ -10,12 +10,14 @@ import {BrickTree, LegoTreeSettings} from "../brickRendering/BrickTree";
 export default function () {
     const {treeSize, preset} = useControls( {
         treeSize: {
+            label: "Tree size",
             value: 7,
             min: 3,
             max: 18,
             step: 0.01
         },
         preset: {
+            label: "Tree type",
             options: Object.keys(presets)
         }
     })
@@ -28,7 +30,7 @@ export default function () {
             cooConstraints: (vec) => vec.y<=0
         }
     }
-    const [trees, setTrees] = useState<Array<LegoTreeSettings>>([getSettings(new Vector3(0,0,0))])
+    const [trees, setTrees] = useState<Array<LegoTreeSettings>>([])
 
 
 

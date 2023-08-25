@@ -14,7 +14,7 @@ interface BrickWall {
 
 const tempBoxes = new Object3D();
 
-export const BrickWall: React.FC<BrickWall> = ({size, randomColor = true,color , align= "center"}) => {
+export const BrickWall: React.FC<BrickWall> = ({size, randomColor = true,color , align= "center", children, ...props}) => {
     const material = randomColor? new MeshLambertMaterial() : new MeshLambertMaterial({color:color});
     const ref = useRef();
     const { nodes } = useGLTF("./lego.glb");
@@ -53,5 +53,9 @@ export const BrickWall: React.FC<BrickWall> = ({size, randomColor = true,color ,
         ref.current.instanceMatrix.needsUpdate = true;
     });
 
-    return <instancedMesh ref={ref} args={[nodes.Lego.geometry, material, size.x*size.y]} />;
+    return <group {...props}>
+        <instancedMesh ref={ref} args={[nodes.Lego.geometry, material, size.x * size.y]}/>
+        {children}
+    </group>;
+
 }

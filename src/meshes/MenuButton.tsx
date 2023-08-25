@@ -3,14 +3,14 @@ import {Center, Float, Hud, OrthographicCamera, PerspectiveCamera} from "@react-
 import {useThree} from "@react-three/fiber";
 import Lighting from "./Lighting";
 
-export default function ({setPage}) {
+export default function ({setPage, renderPriority}) {
     const { width, height } = useThree(state => state.viewport)
 
     const click = (e) => {
         setPage("menu")
     }
     return <>
-        <Hud>
+        <Hud renderPriority={renderPriority}>
             <PerspectiveCamera fov={30} makeDefault/>
             <Float speed={3} rotationIntensity={0} floatingRange={[1, 2]}>
                 <Center bottom right  position={[-width/4.5,height/5.5,-60]}>
