@@ -9,17 +9,19 @@ import {BrickPlane} from "../brickRendering/BrickPlane";
 import {Kebab} from "../animation/Kebab";
 import Lighting from "../meshes/Lighting";
 import BlackText from "../meshes/BlackText";
-import {ArrowButton} from "../brickRendering/ArrowButton";
+import {Grid} from "../const/grid";
 
 interface TreePresentation {
-    preset: Preset,
+    preset: Preset;
 }
 
-export const TreePresentation: React.FC<TreePresentation> = ({preset}) => {
+export const TreePresentation: React.FC<TreePresentation> = ({preset, ...props}) => {
     const { width } = useThree(state => state.viewport)
+    Grid.newGrid(new Vector3(2000,2000,300));
 
-    return <>
+    return <group {...props}>
         <Hud renderPriority={1}>
+            <group {...props}>
             <Center right position={[100,-10,-width/1.8]} scale={2.2}>
                 <Float speed={3} rotationIntensity={0} floatingRange={[1, 2]}>
                     <BrickWall colors={preset.colors} scale={2} rotation-y={-Math.PI / 2 + 0.2} size={new Vector2(12, 30)}>
@@ -30,22 +32,15 @@ export const TreePresentation: React.FC<TreePresentation> = ({preset}) => {
                 </Float>
             </Center>
             <Lighting pos={[-1,2,3]} />
+            </group>
         </Hud>
-        <Hud renderPriority={2}>
-            <Center left position={[50, -15, width / 1.5]} scale={5} rotation-y={-0.3}>
-                <ArrowButton dir={"right"} action={(e) => {}}/>
-            </Center>
-            <Center right position={[50, -15, -width / 1.5]} scale={5} rotation-y={0.3}>
-                <ArrowButton dir={"left"} action={(e) => {}}/>
-            </Center>
-            <Lighting/>
-        </Hud>
+
         <Center left position={[0, -20, width / 5]}>
             <Kebab speed={10}>
                 <BrickPlane size={new Vector2(5, 5)} color={"#b29e5d"}/>
-                <BrickTree length={8} startingPoint={new Vector3(0, 0, 0)} preset={preset}/>
+                <BrickTree key={Math.random()} length={8} startingPoint={new Vector3(0, 0, 0)} preset={preset}/>
             </Kebab>
         </Center>
 
-    </>;
+    </group>;
 }
