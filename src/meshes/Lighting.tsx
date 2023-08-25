@@ -1,6 +1,6 @@
-export default function () {
+export default function ({pos = [1, 2, 3]}) {
     return <>
         <ambientLight intensity={0.5}/>
-        <directionalLight color={"#ffffff"} castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04}/>
+        <directionalLight color={"#ffffff"} castShadow position={pos} intensity={1.8} shadow-normalBias={0.04}/>
     </>
 }

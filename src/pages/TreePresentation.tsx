@@ -11,7 +11,7 @@ import Lighting from "../meshes/Lighting";
 import BlackText from "../meshes/BlackText";
 
 interface TreePresentation {
-    preset: Preset
+    preset: Preset,
 }
 
 export const TreePresentation: React.FC<TreePresentation> = ({preset}) => {
@@ -19,16 +19,16 @@ export const TreePresentation: React.FC<TreePresentation> = ({preset}) => {
 
     return <>
         <Hud renderPriority={1}>
-            <Center right position={[0, 5, -width / 5]}>
+            <Center right position={[100,-10,-width/1.8]} scale={2.2}>
                 <Float speed={3} rotationIntensity={0} floatingRange={[1, 2]}>
-                    <BrickWall scale={2} rotation-y={-Math.PI / 2 + 0.2} size={new Vector2(12, 30)}>
-                        <BlackText position={[-8, 10, 2]}>
+                    <BrickWall colors={preset.colors} scale={2} rotation-y={-Math.PI / 2 + 0.2} size={new Vector2(12, 30)}>
+                        <BlackText position={[-8, 10, 0.75]}>
                             Tree name
                         </BlackText>
                     </BrickWall>
                 </Float>
             </Center>
-            <Lighting/>
+            <Lighting pos={[-1,2,3]} />
         </Hud>
         <Center left position={[0, -20, width / 5]}>
             <Kebab speed={10}>

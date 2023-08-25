@@ -10,8 +10,8 @@ import {defaultCamPos, pagesHuds} from "./const/style";
 import {useThree} from "@react-three/fiber";
 import gsap from "gsap"
 
-// todo : welcoming screen in playground to explain its working
-// todo : about page ; trees page
+// todo : welcoming screen in playground to explain its workings
+// todo : trees page : tree desc, switch tree buttons & animation ; about page
 
 
 export default function () {
