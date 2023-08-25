@@ -9,6 +9,7 @@ import {BrickPlane} from "../brickRendering/BrickPlane";
 import {Kebab} from "../animation/Kebab";
 import Lighting from "../meshes/Lighting";
 import BlackText from "../meshes/BlackText";
+import {ArrowButton} from "../brickRendering/ArrowButton";
 
 interface TreePresentation {
     preset: Preset,
@@ -29,6 +30,15 @@ export const TreePresentation: React.FC<TreePresentation> = ({preset}) => {
                 </Float>
             </Center>
             <Lighting pos={[-1,2,3]} />
+        </Hud>
+        <Hud renderPriority={2}>
+            <Center left position={[0, 0, width / 2.4]} scale={2.5} rotation-y={-0.3}>
+                <ArrowButton dir={"right"} action={(e) => {}}/>
+            </Center>
+            <Center right position={[0, 0, -width / 2.4]} scale={2.5} rotation-y={0.3}>
+                <ArrowButton dir={"left"} action={(e) => {}}/>
+            </Center>
+            <Lighting/>
         </Hud>
         <Center left position={[0, -20, width / 5]}>
             <Kebab speed={10}>
