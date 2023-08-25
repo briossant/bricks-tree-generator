@@ -30,14 +30,14 @@ export default function () {
         tl.to(camera.position, {
             x: defaultCamPos[0],
             y: defaultCamPos[1],
-            z:defaultCamPos[2],
-            duration: 0.8,
+            z: defaultCamPos[2],
+            duration: page == "playground" ? 0.8 : 0,
             onUpdate: () => {camera.lookAt(0,0,0);}
         })
         tl.to(camera.position, {
             y: animStrength+defaultCamPos[1],
             duration: animDuration/2,
-            onComplete: () => {setPage(newPage);camera.position.y = -animStrength-defaultCamPos[1]}
+            onComplete: () => {setPage(newPage);camera.position.y = -animStrength+defaultCamPos[1];camera.lookAt(0, -animStrength,0)}
         });
         tl.to(camera.position, {
             y: defaultCamPos[1],
