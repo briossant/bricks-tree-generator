@@ -1,5 +1,5 @@
 import {OrbitControls, useGLTF} from "@react-three/drei";
-import {Vector2, Vector3} from "three";
+import {MOUSE, Vector2, Vector3} from "three";
 import {useState} from "react";
 import {useControls} from "leva";
 import {presets} from "../treeGeneration/presets/presets";
@@ -23,6 +23,10 @@ export default function () {
         alignBricks: {
             label: "Align Bricks",
             value: true
+        },
+        controls: {
+            value: "Left-click on the plane to spawn a tree.\nRight-click+drag to move around.\nScroll to zoom in.\nReload the page to reset.\nEnjoy :)",
+            editable:false
         }
     })
 
@@ -46,7 +50,11 @@ export default function () {
 
     return <>
 
-        <OrbitControls  />
+        <OrbitControls mouseButtons={{
+            LEFT: MOUSE.PAN,
+            MIDDLE: MOUSE.DOLLY,
+            RIGHT: MOUSE.ROTATE
+        }} enablePan={false} maxPolarAngle={2.2} />
 
         {trees.map((set,i) => <BrickTree key={i} {...set}/>)}
 
