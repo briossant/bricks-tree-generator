@@ -9,14 +9,15 @@ import Lighting from "./meshes/Lighting";
 import {defaultCamPos, pagesHuds} from "./const/style";
 import {useThree} from "@react-three/fiber";
 import gsap from "gsap"
+import About from "./pages/About";
 
-// todo : welcoming screen in playground to explain its workings
-// todo : trees page : tree desc, switch tree buttons & animation ; about page
+// todo : social card
+// todo : trees page : tree desc ; about page
 
 
 export default function () {
     const [page, setPage] = useState<string>("menu")
-    Grid.newGrid(new Vector3(2000,2000,300));
+    Grid.newGrid();
 
     const {camera} = useThree();
 
@@ -53,6 +54,8 @@ export default function () {
 
             {page == "playground" && <Playground/>}
             {page == "trees" && <Trees/>}
+            {page == "about" && <About/>}
+
         <Lighting/>
     </>
 }

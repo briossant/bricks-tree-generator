@@ -1,13 +1,17 @@
 import {OrbitControls, useGLTF} from "@react-three/drei";
 import {MOUSE, Vector2, Vector3} from "three";
 import {useState} from "react";
-import {useControls} from "leva";
+import {button, useControls} from "leva";
 import {presets} from "../treeGeneration/presets/presets";
 import {BrickPlane} from "../brickRendering/BrickPlane";
 import {BrickTree, LegoTreeSettings} from "../brickRendering/BrickTree";
+import {Grid} from "../const/grid";
 
+const planeY = -10;
 
 export default function () {
+    const [trees, setTrees] = useState<Array<LegoTreeSettings>>([])
+
     const {treeSize, preset, alignBricks} = useControls( {
         treeSize: {
             label: "Tree size",
@@ -24,8 +28,9 @@ export default function () {
             label: "Align Bricks",
             value: true
         },
+        reset: button(() => {Grid.newGrid(); setTrees([])}),
         controls: {
-            value: "Left-click on the plane to spawn a tree.\nRight-click+drag to move around.\nScroll to zoom in.\nReload the page to reset.\nEnjoy :)",
+            value: "Left-click on the plane to spawn a tree.\n\nRight-click+drag to move around.\n\nScroll to zoom in/out.\n\nEnjoy :)",
             editable:false
         }
     })
@@ -36,10 +41,9 @@ export default function () {
             startingPoint: startPos,
             preset: presets[preset],
             dontAlignBricks: !alignBricks,
-            cooConstraints: (vec) => vec.y<=0
+            cooConstraints: (vec) => vec.y<=planeY
         }
     }
-    const [trees, setTrees] = useState<Array<LegoTreeSettings>>([])
 
 
 
@@ -58,11 +62,14 @@ export default function () {
 
         {trees.map((set,i) => <BrickTree key={i} {...set}/>)}
 
-        <mesh scale={[200,200,1]} rotation={[-Math.PI/2,0,0]} onClick={eventHandler} >
-            <planeGeometry/>
-        </mesh>
+        <group position-y={planeY}>
+            <mesh scale={[200,200,1]}  rotation={[-Math.PI/2,0,0]} onClick={eventHandler} >
+                <planeGeometry/>
+            </mesh>
 
-        <BrickPlane size={new Vector2(130,130)} color={"#cbac70"}/>
+            <BrickPlane size={new Vector2(130,130)} color={"#cbac70"}/>
+        </group>
+
 
 
     </>

@@ -16,6 +16,7 @@ const tempBoxes = new Object3D();
 export const BrickWall: React.FC<BrickWall> = ({size,colors=[] , align= "center", children, ...props}) => {
     const material = new MeshLambertMaterial();
     const ref = useRef();
+    // @ts-ignore
     const { nodes } = useGLTF("./lego.glb");
 
     let offset: Vector2;
@@ -46,6 +47,7 @@ export const BrickWall: React.FC<BrickWall> = ({size,colors=[] , align= "center"
             tempBoxes.updateMatrix();
             // @ts-ignore
             ref.current.setMatrixAt(i, tempBoxes.matrix);
+            // @ts-ignore
             ref.current.setColorAt(i, chosenColors[i]);
         }
         // @ts-ignore

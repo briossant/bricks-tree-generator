@@ -6,7 +6,7 @@ export class Grid {
     private static grid: Array<boolean> = []
 
 
-    static newGrid: (size: Vector3) => void = (size) => {
+    static newGrid: (size?: Vector3) => void = (size = new Vector3(2000,2000,300)) => {
         Grid.size = size;
         Grid.grid = Array(size.x*size.y*size.z);
         Grid.offset = new Vector3(Math.floor(size.x/2), Math.floor(size.y/2), Math.floor(size.z/2));
