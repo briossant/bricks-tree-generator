@@ -8,7 +8,9 @@ import {getRdmInt} from "../../utilities";
 interface TreeDesc {
     latinName: string;
     engName: string;
-    desc: string;
+    size: string;
+    origins: string;
+    notes: Array<string>;
 }
 export interface Preset {
     lengthMul: number,
@@ -26,9 +28,13 @@ export const presets: { [name: string]: Preset} = {
         },
         colors: ["#7e695d", "#8a7a62", "#918269"],
         desc: {
-            desc: "",
+            origins: "northern hemisphere",
+            size: "20 to 50 meters",
             engName: "Oak",
-            latinName: "Quercus"
+            latinName: "Quercus",
+            notes: ["Highly appreciated for its",
+                "robustness, the oak is a tree", "capable of living for several",
+                "centuries, the oldest of them ","being at least 1500 years old."]
         }
     },
     "Abies": {
@@ -40,9 +46,11 @@ export const presets: { [name: string]: Preset} = {
         },
         colors: ["#c25252", "#b95454", "#b43d3d"],
         desc: {
-            desc: "",
             engName: "Fir",
-            latinName: "Abies"
+            latinName: "Abies",
+            notes: [],
+            size: "",
+            origins: ""
         }
     },
     "Vachellia tortilis": {
@@ -54,9 +62,11 @@ export const presets: { [name: string]: Preset} = {
         },
         colors: ["#989151", "#97a15a", "#a49763"],
         desc: {
-            desc: "",
             engName: "Umbrella thorn acacia",
-            latinName: "Vachellia tortilis"
+            latinName: "Vachellia tortilis",
+            notes: [],
+            size: "",
+            origins: ""
         }
     },
     "Salix babylonica": {
@@ -69,9 +79,11 @@ export const presets: { [name: string]: Preset} = {
         colors: ["#4ebe68", "#61b671", "#468056", "#44b955",
             "#247c60", "#b4a893", "#b09d81", "#ad9a7d"],
         desc: {
-            desc: "",
             engName: "Babylon willow",
-            latinName: "Salix babylonica"
+            latinName: "Salix babylonica",
+            notes: [],
+            size: "",
+            origins: ""
         }
     }
 };

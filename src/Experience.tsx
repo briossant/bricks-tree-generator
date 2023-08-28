@@ -12,7 +12,7 @@ import gsap from "gsap"
 import About from "./pages/About";
 
 // todo : social card
-// todo : trees page : tree desc ; about page
+// todo : trees page : tree desc
 
 
 export default function () {

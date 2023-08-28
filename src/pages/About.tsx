@@ -13,16 +13,17 @@ export default function () {
     return <>
         <LimitedFlyControls amplitude={new Vector2(5,3)} speed={0.01}/>
         <group rotation-y={-Math.PI / 2} scale={2}>
-            <BrickWall position-x={-8} rotation-y={0.2} size={new Vector2(14, 28)} colors={colors}>
+            <BrickWall position-x={-8} rotation-y={0.2} size={new Vector2(14, 18)} colors={colors}>
                 <Html transform scale={2.7}>
                     <h3>About</h3>
-                    <p>This website was made for 2nd <a href={"https://threejs-journey.com/"}>Threejs-journey</a>,<br/> the
-                        theme was "Lego".</p>
-                    <p>All the 3d models, except for the text, <br/> are generated live  when you load the pages, <br/> using a single 2 by 2 brick model.</p>
-
+                    <p>This website was made for 2nd  <a href={"https://threejs-journey.com/"}>Threejs-<br/>journey</a> contest,
+                        the theme was "Lego".</p>
+                    <p>The goal of the project was to recreate my  <br/>old <a href="https://briossant.com/3d-demo/006-tree-generator/">tree generator </a>
+                        with more features, better <br/>performances and, of course, bricks instead <br/>of pipes.</p>
+                    <p>All the 3d models are generated live using a  <br/> single 2x2 brick model (except for the text).</p>
                 </Html>
             </BrickWall>
-            <BrickWall position={[12,6,0]} rotation-y={-0.2} size={new Vector2(6, 12)} colors={colors}>
+            <BrickWall position={[12,2,0]} rotation-y={-0.2} size={new Vector2(6, 12)} colors={colors}>
                 <Html transform scale={3}>
                     <h3>Links:</h3>
                     <a href="https://github.com/briossant/bricks-tree-generator">Project github</a><br/><br/>

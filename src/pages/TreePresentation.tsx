@@ -22,7 +22,7 @@ export const TreePresentation: React.FC<TreePresentation> = ({preset, ...props})
     return <group {...props}>
         <Hud renderPriority={1}>
             <group {...props}>
-            <Center right position={[100,-10,-width/1.8]} scale={2.2}>
+            <Center right position={[100,-10,-width/2.6]} scale={2.2}>
                 <Float speed={3} rotationIntensity={0} floatingRange={[1, 2]}>
                     <BrickWall colors={preset.colors} scale={2} rotation-y={-Math.PI / 2 + 0.2} size={new Vector2(12, 30)}>
                         <BlackText scale={1.4} position={[-8, 11.5, 0.75]}>
@@ -31,12 +31,13 @@ export const TreePresentation: React.FC<TreePresentation> = ({preset, ...props})
                         <BlackText scale={0.7} position={[-8, 10, 0.75]}>
                             ({preset.desc.engName})
                         </BlackText>
-                        <BlackText position={[-8, 8, 0.75]}>
-                            Size:
+                        <BlackText scale={0.8} position={[-8, 8, 0.75]}>
+                            Size: {preset.desc.size}
                         </BlackText>
-                        <BlackText position={[-8, 6, 0.75]}>
-                            Regions:
+                        <BlackText scale={0.8} position={[-8, 6, 0.75]}>
+                            Origins: {preset.desc.origins}
                         </BlackText>
+                        {preset.desc.notes.map((note,i) => <BlackText scale={0.8} key={i} position={[-8, 4-i*1.4, 0.75]}>{note}</BlackText>)}
                     </BrickWall>
                 </Float>
             </Center>
