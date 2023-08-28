@@ -48,9 +48,10 @@ export const presets: { [name: string]: Preset} = {
         desc: {
             engName: "Fir",
             latinName: "Abies",
-            notes: [],
-            size: "",
-            origins: ""
+            notes: ["The fir tree comes in 46 species,","varying greatly in size and",
+            "appearance. It is very popular,","especially for its use at","Christmas festivities."],
+            size: "1 to 100 meters",
+            origins: "everywhere"
         }
     },
     "Vachellia tortilis": {
@@ -65,8 +66,8 @@ export const presets: { [name: string]: Preset} = {
             engName: "Umbrella thorn acacia",
             latinName: "Vachellia tortilis",
             notes: [],
-            size: "",
-            origins: ""
+            size: "5 to 21 meters",
+            origins: "Sahara and South Africa"
         }
     },
     "Salix babylonica": {
@@ -82,8 +83,8 @@ export const presets: { [name: string]: Preset} = {
             engName: "Babylon willow",
             latinName: "Salix babylonica",
             notes: [],
-            size: "",
-            origins: ""
+            size: "10 to 30 meters",
+            origins: "China"
         }
     }
 };
