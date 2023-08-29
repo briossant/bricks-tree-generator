@@ -6,7 +6,6 @@ import {presets} from "../treeGeneration/presets/presets";
 import {BrickPlane} from "../brickRendering/BrickPlane";
 import {BrickTree, LegoTreeSettings} from "../brickRendering/BrickTree";
 import {Grid} from "../const/grid";
-import {Perf} from "r3f-perf";
 
 const planeY = -10;
 
@@ -31,7 +30,8 @@ export default function () {
         },
         reset: button(() => {Grid.newGrid(); setTrees([])}),
         controls: {
-            value: "Left-click on the plane to spawn a tree.\n\nRight-click+drag to move around.\n\nScroll to zoom in/out.\n\nEnjoy :)",
+            value: "Left-click on the plane to spawn a tree.\n\n" +
+                "Right-click+drag to move around.\n\nScroll to zoom in/out.\n\n/!\\ Align Bricks on false is very laggy\n\nEnjoy :)",
             editable:false
         }
     })
@@ -54,8 +54,6 @@ export default function () {
     }
 
     return <>
-
-        <Perf></Perf>
 
         <OrbitControls mouseButtons={{
             LEFT: MOUSE.PAN,
