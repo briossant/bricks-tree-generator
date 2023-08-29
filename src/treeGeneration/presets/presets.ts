@@ -65,7 +65,9 @@ export const presets: { [name: string]: Preset} = {
         desc: {
             engName: "Umbrella thorn acacia",
             latinName: "Vachellia tortilis",
-            notes: [],
+            notes: ["This tree members of the acacia", "family only grows in certain",
+                "desert regions of Africa. It's a", "thorny tree, known for its",
+                "unique umbrella-like appearance,", "hence the name \"Umbrella thorn ", "acacia\"."],
             size: "5 to 21 meters",
             origins: "Sahara and South Africa"
         }
@@ -80,9 +82,11 @@ export const presets: { [name: string]: Preset} = {
         colors: ["#4ebe68", "#61b671", "#468056", "#44b955",
             "#247c60", "#b4a893", "#b09d81", "#ad9a7d"],
         desc: {
-            engName: "Babylon willow",
+            engName: "Weeping willow",
             latinName: "Salix babylonica",
-            notes: [],
+            notes: ["Salix babylonica is a tree with", "graceful, drooping branches that" ,
+                "give it a fountain-like appearance.", "It is often found planted in parks",
+                "around ponds, which are ideal", "for it."],
             size: "10 to 30 meters",
             origins: "China"
         }
