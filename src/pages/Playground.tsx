@@ -6,6 +6,7 @@ import {presets} from "../treeGeneration/presets/presets";
 import {BrickPlane} from "../brickRendering/BrickPlane";
 import {BrickTree, LegoTreeSettings} from "../brickRendering/BrickTree";
 import {Grid} from "../const/grid";
+import {Perf} from "r3f-perf";
 
 const planeY = -10;
 
@@ -40,7 +41,7 @@ export default function () {
             length: treeSize,
             startingPoint: startPos,
             preset: presets[preset],
-            dontAlignBricks: !alignBricks,
+            alignBricks: alignBricks,
             cooConstraints: (vec) => vec.y<=planeY
         }
     }
@@ -53,6 +54,8 @@ export default function () {
     }
 
     return <>
+
+        <Perf></Perf>
 
         <OrbitControls mouseButtons={{
             LEFT: MOUSE.PAN,

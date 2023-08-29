@@ -13,7 +13,8 @@ interface LineRendererSettings {
     scale: number;
     geometry: any;
     snap: Vector3;
-    cooConstraints: cooConstraints
+    cooConstraints: cooConstraints;
+    doSnap?: boolean;
 }
 
 const snapNumber: (x:number, snap:number) => number = (x, snap) => {
@@ -36,7 +37,7 @@ const cooParseForGrid = (coo, snap) => {
 
 const tempBoxes = new Object3D();
 
-export const LineRenderer: React.FC<LineRendererSettings> = ({line, colors, geometry, scale, snap, cooConstraints}) => {
+export const LineRenderer: React.FC<LineRendererSettings> = ({line, colors, geometry, scale, doSnap=true, snap, cooConstraints}) => {
     const material = new MeshLambertMaterial();
 
     const [pos, setPos] = useState<Array<[number,number,number]>>([]);
@@ -46,10 +47,15 @@ export const LineRenderer: React.FC<LineRendererSettings> = ({line, colors, geom
         const p = [];
         const c = [];
         for (let i = 0; i < line.length; i++) {
-            const coo = snapCoordinates(line[i], scale, snap);
-            const gridCoo = cooParseForGrid(coo, snap);
-            if(cooConstraints(gridCoo) || Grid.atBox(gridCoo)) {continue;}
-            Grid.setBox(gridCoo);
+            let coo = [line[i].x,line[i].y,line[i].z];
+            if (doSnap) {
+                coo = snapCoordinates(line[i], scale, snap);
+                const gridCoo = cooParseForGrid(coo, snap);
+                if (cooConstraints(gridCoo) || Grid.atBox(gridCoo)) {
+                    continue;
+                }
+                Grid.setBox(gridCoo);
+            }
 
             p.push(coo);
             // @ts-ignore

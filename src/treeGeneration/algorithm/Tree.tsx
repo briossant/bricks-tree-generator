@@ -9,13 +9,14 @@ export interface TreeSettings {
     geometry: any;
     startingPoint: Vector3;
     snap: Vector3;
-    scale: number
+    scale: number;
+    doSnap?: boolean;
 
     cooConstraints: cooConstraints;
     functions: BranchFunctions;
 }
 
-export const Tree: React.FC<TreeSettings> = ({length, scale, startingPoint,functions, cooConstraints,geometry,snap}) => {
+export const Tree: React.FC<TreeSettings> = ({length, scale, doSnap=true, startingPoint,functions, cooConstraints,geometry,snap}) => {
     const [line, setLine] = useState<Array<Vector3>>([]);
     const [colors, setColors] = useState<Array<string>>([]);
 
@@ -32,6 +33,6 @@ export const Tree: React.FC<TreeSettings> = ({length, scale, startingPoint,funct
             functions={functions}
             setColors={setColors}
         />
-        <LineRenderer line={line} colors={colors} scale={scale} snap={snap} geometry={geometry}  cooConstraints={cooConstraints}/>
+        <LineRenderer doSnap={doSnap} line={line} colors={colors} scale={scale} snap={snap} geometry={geometry}  cooConstraints={cooConstraints}/>
     </>
 }
