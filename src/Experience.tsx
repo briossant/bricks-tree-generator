@@ -1,9 +1,8 @@
 import Playground from "./pages/Playground";
-import {useRef, useState} from "react";
+import {useState} from "react";
 import {Menu} from "./pages/Menu";
 import Trees from "./pages/Trees";
 import {Grid} from "./const/grid";
-import {Vector3} from "three";
 import MenuButton from "./meshes/MenuButton";
 import Lighting from "./meshes/Lighting";
 import {defaultCamPos, pagesHuds} from "./const/style";
@@ -11,8 +10,6 @@ import {useThree} from "@react-three/fiber";
 import gsap from "gsap"
 import About from "./pages/About";
 
-// todo : social card
-// todo : trees page : tree desc
 
 
 export default function () {
