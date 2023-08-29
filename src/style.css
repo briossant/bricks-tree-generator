@@ -1,3 +1,4 @@
+
 html,
 body,
 #root
@@ -7,4 +8,12 @@ body,
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: paleturquoise;
 }
+
+a {
+    color: #001fb2;
+    text-decoration: underline;
+}
+
+
