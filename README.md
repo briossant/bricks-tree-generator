@@ -1,4 +1,5 @@
 # bricks-tree-generator
+<img src="https://github.com/briossant/bricks-tree-generator/blob/master/public/icon.png"/>
 
 
 <p><a href="https://briossant.com/trees/">LIVE VERSION </a></p>
@@ -8,4 +9,5 @@ with more features, better performances and, of course, bricks instead of pipes.
                     <p>All the 3d models are generated live using a single 2x2 brick model (except for the text).</p>
 
 
-
+<img src="https://github.com/briossant/bricks-tree-generator/blob/master/public/trees2.png"/>
+<img src="https://github.com/briossant/bricks-tree-generator/blob/master/public/trees1.png"/>
