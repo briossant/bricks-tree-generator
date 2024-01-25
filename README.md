@@ -1,6 +1,4 @@
 # bricks-tree-generator
-<img src="https://github.com/briossant/bricks-tree-generator/blob/master/public/icon.png"/>
-
 
 <p><a href="https://briossant.com/trees/">LIVE VERSION </a></p>
 <p>This project was made for 2nd  <a href={"https://threejs-journey.com/"}>Threejs-journey</a> contest, the theme was "Lego".</p>
